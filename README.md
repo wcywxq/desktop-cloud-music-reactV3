@@ -1,2 +1,3 @@
-# building-tools
-webpack loader plugin 等内容, roolup 等内容, vite 等内容, gulp 等内容
+# 简介
+
+基于 webpack 构建的 react 项目执行环境，后续完善相应功能
