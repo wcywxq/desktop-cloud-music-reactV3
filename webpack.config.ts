@@ -5,7 +5,10 @@ import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import WebpackBarPlguin from "webpackbar";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import UglifyJsPlugin from "uglifyjs-webpack-plugin";
-import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
+// css 压缩
+// import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 const { CURRENT_DEVELOPMENT } = process.env;
 
@@ -37,35 +40,26 @@ class MyExampleWebpackPlugin2 {
 
 export default {
   mode: "development",
-  entry: path.resolve(__dirname, "src/index.tsx"),
+  entry: path.resolve(__dirname, "src/renderer/index.tsx"),
   output: {
-    path: path.resolve(__dirname, "./dist"),
-    filename: "js/[name].[hash].js",
+    path: path.resolve(__dirname, "dist"),
+    filename: CURRENT_DEVELOPMENT === "prod" ? "static/js/[name].[contenthash:8].js" : "static/js/[name].bundle.js",
+    chunkFilename: CURRENT_DEVELOPMENT === "prod" ? "static/js/[name].[contenthash:8].js" : "static/js/[name].chunk.js",
+    publicPath: "/",
     assetModuleFilename: "images/[hash][ext][query]"
   },
   devtool: "source-map",
   optimization: {
-    minimize: false,
+    minimize: true,
+    minimizer: [
+      // css 压缩
+      new CssMinimizerPlugin() as unknown,
+      // js 压缩
+      new UglifyJsPlugin({ sourceMap: CURRENT_DEVELOPMENT === "prod" })
+    ],
     splitChunks: {
-      chunks: "async",
-      minSize: 20000,
-      minRemainingSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 30,
-      maxInitialRequests: 30,
-      enforceSizeThreshold: 50000,
-      cacheGroups: {
-        defaultVendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-          reuseExistingChunk: true
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true
-        }
-      }
+      chunks: "all",
+      name: false
     }
   },
   module: {
@@ -79,17 +73,17 @@ export default {
         test: /\.(css|sass|scss|less)$/,
         use: [
           CURRENT_DEVELOPMENT === "prod" ? MiniCssExtractPlugin.loader : "style-loader",
-          { loader: "css-loader", options: { sourceMap: true } },
-          { loader: "postcss-loader", options: { sourceMap: true } },
-          { loader: "sass-loader", options: { sourceMap: true } },
-          { loader: "less-loader", options: { sourceMap: true } }
+          { loader: "css-loader" },
+          { loader: "postcss-loader" },
+          { loader: "sass-loader" },
+          { loader: "less-loader" }
         ]
       },
-      { test: /\.(ts|tsx)$/, use: ["ts-loader"] },
+      { test: /\.(ts|tsx)$/, use: "ts-loader", exclude: "/node_modules" },
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         use: ["thread-loader", "babel-loader"],
-        exclude: "/node_modules"
+        include: path.resolve(__dirname, "src")
       }
     ]
   },
@@ -97,24 +91,29 @@ export default {
     // 自动补全扩展名
     extensions: [".js", ".ts", ".jsx", ".tsx"],
     alias: {
-      "@": path.resolve(__dirname, "./src")
+      "@": path.resolve(__dirname, "src/renderer")
     }
   },
   plugins: [
+    // webpack bar
+    new WebpackBarPlguin({
+      name: "编译进度",
+      color: "#f40"
+    }),
     // new webpack.ProgressPlugin((percentage, message, ...args) => {}),
-    new WebpackBarPlguin({ name: "react + mobx webpack cli" }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "./public/index.html"),
+      template: "public/index.html",
       filename: "index.html",
-      title: "react + mobx + todolist"
+      title: "electron music"
     }),
-    new MiniCssExtractPlugin({ filename: "css/[name].[contenthash].css" }),
-    // css 压缩
-    new OptimizeCssAssetsPlugin(),
-    new MyExampleWebpackPlugin(),
-    new MyExampleWebpackPlugin2()
-  ].concat(CURRENT_DEVELOPMENT === "prod" ? [new UglifyJsPlugin({ sourceMap: true })] : []),
+    new MiniCssExtractPlugin({ filename: "static/css/[name].[contenthash].css" }) as unknown
+    // css 压缩 optimize-css-assets-plugin 在 webpack 5 不再适用
+    // new OptimizeCssAssetsPlugin(),
+    // 自定义插件
+    // new MyExampleWebpackPlugin(),
+    // new MyExampleWebpackPlugin2()
+  ].concat(CURRENT_DEVELOPMENT === "prod" ? new BundleAnalyzerPlugin() : []),
   performance: {
     hints: false
   },
@@ -122,7 +121,6 @@ export default {
     contentBase: path.resolve(__dirname, "dist"),
     compress: true,
     port: 7000,
-    open: true,
     hot: true,
     overlay: true
   },

@@ -1,0 +1,18 @@
+.basic-layout-container {
+    min-height: 100vh !important;
+}
+
+.basic-layout-header {
+    background-color: #fff !important;
+}
+
+.basic-layout-sider { 
+    background-color: #f5f5f5 !important;
+}
+
+.basic-layout-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}

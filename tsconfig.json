@@ -13,7 +13,7 @@
     "pretty": true,
     "lib": ["es5", "dom"],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/renderer/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx"],

@@ -1,24 +1,24 @@
 import React from "react";
 import { observer, useLocalObservable } from "mobx-react-lite";
 // import { Button } from "antd";
-import counterStore from "@/store/counterStore";
-import Icon from "@/assets/images/hanbao.png";
+import store from "@/store";
+// import Icon from "@/assets/images/hanbao.png";
 import styles from "./MobxHooks.scss";
 
 const MobxHooks = observer(() => {
-  const store = useLocalObservable(() => counterStore);
+  const { counter } = useLocalObservable(() => store);
   return (
     <div className={styles.container}>
       <span>
         <label>计算属性</label>
-        {store.currentCount}
+        {counter.currentCount}
       </span>
       <span>
         <label>当前值</label>
-        {store.count}
+        {counter.count}
       </span>
-      <button onClick={() => store.increase()}>增加</button>
-      <img src={Icon} />
+      <button onClick={() => store.counter.increase()}>增加</button>
+      {/* <img src={Icon} /> */}
     </div>
   );
 });
