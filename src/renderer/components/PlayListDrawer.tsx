@@ -25,7 +25,7 @@ const PlayListDrawer: React.FC<IProps> = props => {
 
   const currentWidth = useMemo(() => {
     if (!visible) return 0;
-    return width || "25%";
+    return width || "30%";
   }, [visible, width]);
 
   return <PlayListDrawerContainer width={currentWidth}>{children}</PlayListDrawerContainer>;
