@@ -9,6 +9,7 @@ import UglifyJsPlugin from "uglifyjs-webpack-plugin";
 // import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import EslintWebpackPlugin from "eslint-webpack-plugin";
 
 const { CURRENT_DEVELOPMENT } = process.env;
 
@@ -50,16 +51,33 @@ export default {
   },
   devtool: "source-map",
   optimization: {
-    minimize: true,
+    minimize: CURRENT_DEVELOPMENT === "prod",
     minimizer: [
       // css 压缩
-      new CssMinimizerPlugin() as unknown,
+      new CssMinimizerPlugin(),
       // js 压缩
       new UglifyJsPlugin({ sourceMap: CURRENT_DEVELOPMENT === "prod" })
     ],
     splitChunks: {
-      chunks: "all",
-      name: false
+      chunks: "async", // async: 异步插件(动态导入), inital: 同步插件, all：全部类型
+      minSize: 20000,
+      minRemainingSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      enforceSizeThreshold: 50000,
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
     }
   },
   module: {
@@ -76,14 +94,27 @@ export default {
           { loader: "css-loader" },
           { loader: "postcss-loader" },
           { loader: "sass-loader" },
-          { loader: "less-loader" }
+          {
+            loader: "less-loader",
+            options: {
+              lessOptions: {
+                modifyVars: {
+                  "primary-color": "#ff4d4f",
+                  "link-color": "#ff4d4f",
+                  "border-radius-base": "4px"
+                },
+                javascriptEnabled: true
+              }
+            }
+          }
         ]
       },
       { test: /\.(ts|tsx)$/, use: "ts-loader", exclude: "/node_modules" },
       {
         test: /\.(js|jsx)$/,
-        use: ["thread-loader", "babel-loader"],
-        include: path.resolve(__dirname, "src")
+        use: ["thread-loader", "babel-loader", "eslint-loader"],
+        include: path.resolve(__dirname, "src"),
+        exclude: /node_modules/
       }
     ]
   },
@@ -107,12 +138,20 @@ export default {
       filename: "index.html",
       title: "electron music"
     }),
-    new MiniCssExtractPlugin({ filename: "static/css/[name].[contenthash].css" }) as unknown
+    new MiniCssExtractPlugin({ filename: "static/css/[name].[contenthash].css" }) as unknown,
     // css 压缩 optimize-css-assets-plugin 在 webpack 5 不再适用
     // new OptimizeCssAssetsPlugin(),
+
     // 自定义插件
     // new MyExampleWebpackPlugin(),
     // new MyExampleWebpackPlugin2()
+
+    // eslint
+    new EslintWebpackPlugin({
+      fix: true,
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
+      exclude: "/node_modules/"
+    })
   ].concat(CURRENT_DEVELOPMENT === "prod" ? new BundleAnalyzerPlugin() : []),
   performance: {
     hints: false
