@@ -67,8 +67,9 @@ const SiderMenuItem = styled.div`
 const SiderMenuItemTitle = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 5px 10px;
+  padding: 5px 0;
   color: #9b9b9b;
+  transform: scale(0.9);
 
   svg {
     font-size: 16px;
@@ -80,7 +81,7 @@ const SiderSubMenuItem = styled(Link)`
   display: block;
   width: 100%;
   padding: 5px 10px;
-  color: ${(props: { active: boolean }) => (props.active ? "#ff4d4f" : "#333")};
+  color: ${(props: { active: 1 | 0 }) => (props.active === 1 ? "#ff4d4f" : "#333")};
   transition: all 0.3s ease;
   cursor: pointer;
 
@@ -148,7 +149,7 @@ const BasicLayout = observer((props: RouteConfigComponentProps) => {
                 <span>{menu.extra}</span>
               </SiderMenuItemTitle>
               {menu.children?.map(child => (
-                <SiderSubMenuItem key={child.key} to={child.path} active={location.pathname === child.path}>
+                <SiderSubMenuItem key={child.key} to={child.path} active={location.pathname === child.path ? 1 : 0}>
                   <Space>
                     <span className="menu-item-icon">{child.icon}</span>
                     <span className="menu-item-subTitle">{child.title}</span>
