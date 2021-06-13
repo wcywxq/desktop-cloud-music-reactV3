@@ -97,39 +97,38 @@ type MenuPropsType = {
   children?: Array<
     MenuPropsType & {
       icon: React.ReactNode;
-      path: string;
     }
   >;
 };
 
 const menuList: MenuPropsType[] = [
   {
-    key: "recommend",
+    key: "/recommend",
     title: "推荐",
     children: [
-      { key: "discovery", title: "发现", icon: <CompassOutlined />, path: "/discovery" },
-      { key: "fm", title: "私人FM", icon: <WifiOutlined />, path: "/fm" },
-      { key: "video", title: "视频", icon: <YoutubeOutlined />, path: "/video" },
-      { key: "friend", title: "朋友", icon: <WindowsOutlined />, path: "/friend" }
+      { key: "/discovery", title: "发现", icon: <CompassOutlined /> },
+      { key: "/fm", title: "私人FM", icon: <WifiOutlined /> },
+      { key: "/video", title: "视频", icon: <YoutubeOutlined /> },
+      { key: "/friend", title: "朋友", icon: <WindowsOutlined /> }
     ]
   },
   {
-    key: "personalMusic",
+    key: "/personalMusic",
     title: "我的音乐",
     children: [
-      { key: "iTunes", title: "iTunes音乐", icon: <WindowsOutlined />, path: "/iTunes" },
-      { key: "download", title: "下载管理", icon: <DownloadOutlined />, path: "/download" },
-      { key: "cloud", title: "我的音乐云盘", icon: <CloudDownloadOutlined />, path: "/cloud" },
-      { key: "collect", title: "我的收藏", icon: <StarOutlined />, path: "/collect" }
+      { key: "/iTunes", title: "iTunes音乐", icon: <WindowsOutlined /> },
+      { key: "/download", title: "下载管理", icon: <DownloadOutlined /> },
+      { key: "/cloud", title: "我的音乐云盘", icon: <CloudDownloadOutlined /> },
+      { key: "/collect", title: "我的收藏", icon: <StarOutlined /> }
     ]
   },
   {
-    key: "createPlayList",
+    key: "/createPlayList",
     title: "创建的歌单",
     extra: <PlusCircleOutlined />,
     children: [
-      { key: "loveMusic", title: "我喜欢的音乐", icon: <HeartOutlined />, path: "/loveMusic" },
-      { key: "hotSearch", title: "热搜", icon: <SearchOutlined />, path: "/hotSearch" }
+      { key: "/loveMusic", title: "我喜欢的音乐", icon: <HeartOutlined /> },
+      { key: "/hotSearch", title: "热搜", icon: <SearchOutlined /> }
     ]
   }
 ];
@@ -149,7 +148,7 @@ const BasicLayout = observer((props: RouteConfigComponentProps) => {
                 <span>{menu.extra}</span>
               </SiderMenuItemTitle>
               {menu.children?.map(child => (
-                <SiderSubMenuItem key={child.key} to={child.path} active={location.pathname === child.path ? 1 : 0}>
+                <SiderSubMenuItem key={child.key} to={child.key} active={location.pathname === child.key ? 1 : 0}>
                   <Space>
                     <span className="menu-item-icon">{child.icon}</span>
                     <span className="menu-item-subTitle">{child.title}</span>

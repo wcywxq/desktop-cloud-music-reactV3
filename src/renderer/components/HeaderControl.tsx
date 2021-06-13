@@ -1,7 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { FullscreenOutlined, LeftOutlined, RedoOutlined, RightOutlined, SearchOutlined, SettingOutlined, SkinOutlined } from "@ant-design/icons";
+import {
+  FullscreenOutlined,
+  LeftOutlined,
+  RedoOutlined,
+  RightOutlined,
+  SearchOutlined,
+  SettingOutlined,
+  SkinOutlined
+} from "@ant-design/icons";
 import { Input } from "antd";
+import { Link } from "react-router-dom";
 
 const HeaderControlContainer = styled.div`
   height: 100%;
@@ -41,7 +50,9 @@ const HeaderControl: React.FC = () => {
       <RedoOutlined />
       <SearchControl prefix={<SearchOutlined />} />
       <SkinOutlined />
-      <SettingOutlined />
+      <Link to="/setting">
+        <SettingOutlined />
+      </Link>
       <FullscreenOutlined />
     </HeaderControlContainer>
   );

@@ -18,6 +18,46 @@ const routes: Routes[] = [
         path: "/discovery",
         title: "发现",
         component: Loadable({ loading: Loading, loader: () => import("@/views/discovery") })
+      },
+      {
+        path: "/fm",
+        title: "私人FM",
+        component: Loadable({ loading: Loading, loader: () => import("@/views/fm") })
+      },
+      {
+        path: "/video",
+        title: "视频",
+        component: Loadable({ loading: Loading, loader: () => import("@/views/video") })
+      },
+      {
+        path: "/friend",
+        title: "朋友",
+        component: Loadable({ loading: Loading, loader: () => import("@/views/friend") })
+      },
+      {
+        path: "/iTunes",
+        title: "iTunes音乐",
+        component: Loadable({ loading: Loading, loader: () => import("@/views/iTunes") })
+      },
+      {
+        path: "/download",
+        title: "下载管理",
+        component: Loadable({ loading: Loading, loader: () => import("@/views/download") })
+      },
+      {
+        path: "/cloud",
+        title: "我的音乐云盘",
+        component: Loadable({ loading: Loading, loader: () => import("@/views/cloud") })
+      },
+      {
+        path: "/collect",
+        title: "我的收藏",
+        component: Loadable({ loading: Loading, loader: () => import("@/views/collect") })
+      },
+      {
+        path: "/setting",
+        title: "设置",
+        component: Loadable({ loading: Loading, loader: () => import("@/views/setting") })
       }
     ]
   }
