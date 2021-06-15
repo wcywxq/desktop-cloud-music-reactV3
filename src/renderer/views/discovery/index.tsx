@@ -179,12 +179,16 @@ const Discovery: React.FC = () => {
                 </AlbumMask>
               </AlbumItem>
             </Link>
-            <PackEllipsisText strong title={item.name}>
-              {item.name}
-            </PackEllipsisText>
-            <PackEllipsisText type="secondary" size={12} title={item.copywriter}>
-              {item.copywriter}
-            </PackEllipsisText>
+            <Link to={`/detail/song/${item.id}`}>
+              <PackEllipsisText strong title={item.name}>
+                {item.name}
+              </PackEllipsisText>
+            </Link>
+            <Link to={`/detail/song/${item.id}`}>
+              <PackEllipsisText type="secondary" size={12} title={item.copywriter}>
+                {item.copywriter}
+              </PackEllipsisText>
+            </Link>
           </Space>
         ))}
       </AlbumCard>
