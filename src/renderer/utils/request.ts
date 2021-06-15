@@ -44,6 +44,7 @@ const errorHandler = (error: { response: Response }): Response => {
  * @desc 配置 request 请求时的默认参数
  */
 const request = extend({
+  prefix: "/api",
   errorHandler,
   credentials: "include", // 默认请求是否带上 cookie
   redirect: "manual"

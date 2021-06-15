@@ -38,12 +38,15 @@ const BasicLayoutHeader = styled(Header)`
   right: 0;
   width: calc(100% - 200px);
   background-color: #ffffff !important;
+  z-index: 1000;
 `;
 
 const BasicLayoutContent = styled(Content)`
   margin: 64px 0;
   padding: 20px;
   background-color: #fff;
+  height: calc(100vh - 128px);
+  overflow-y: auto;
 `;
 
 const BasicLayoutFooter = styled(Footer)`

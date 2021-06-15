@@ -161,7 +161,14 @@ export default {
     compress: true,
     port: 7000,
     hot: true,
-    overlay: true
+    overlay: true,
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        pathRewrite: { "^/api": "" }
+      }
+    }
   },
   watchOptions: {
     ignored: /node_modules/

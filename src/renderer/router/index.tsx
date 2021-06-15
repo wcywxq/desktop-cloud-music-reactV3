@@ -2,6 +2,7 @@ import Loadable from "react-loadable";
 import { RouteConfig } from "react-router-config";
 import Loading from "@/components/Loading";
 import BasicLayout from "@/layouts/BasicLayout";
+import RouterView from "@/layouts/RouterView";
 
 export interface Routes extends RouteConfig {
   routes?: Routes[];
@@ -58,6 +59,18 @@ const routes: Routes[] = [
         path: "/setting",
         title: "设置",
         component: Loadable({ loading: Loading, loader: () => import("@/views/setting") })
+      },
+      {
+        path: "/detail",
+        title: "详情",
+        component: RouterView,
+        routes: [
+          {
+            path: "/detail/song/:id",
+            title: "歌单详情",
+            component: Loadable({ loading: Loading, loader: () => import("@/views/detail/song") })
+          }
+        ]
       }
     ]
   }
