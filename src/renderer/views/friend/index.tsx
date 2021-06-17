@@ -1,7 +1,5 @@
-import React from "react";
+import React from 'react';
 
-const Friend: React.FC = () => {
-  return <>朋友</>;
-};
+const Friend: React.FC = () => <>朋友</>;
 
 export default Friend;

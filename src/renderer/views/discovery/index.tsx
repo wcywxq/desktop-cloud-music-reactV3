@@ -1,35 +1,18 @@
-import React, { useState, useEffect } from "react";
-import SwiperCore, { Navigation, Pagination } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Typography, Space } from "antd";
-import styled from "styled-components";
-import { PlayCircleFilled, CaretRightOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
-import { getBanners, getRecommendPlayList } from "./api";
+import React, { useState, useEffect } from 'react';
+import SwiperCore, { Navigation, Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Space } from 'antd';
+import styled from 'styled-components';
+import { PlayCircleFilled } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+import { PlayCount, Text } from '@/components/core';
+import { getBanners, getRecommendPlayList } from './api';
 
-import "swiper/swiper.less";
-import "swiper/components/navigation/navigation.less";
-import "swiper/components/pagination/pagination.less";
+import 'swiper/swiper.less';
+import 'swiper/components/navigation/navigation.less';
+import 'swiper/components/pagination/pagination.less';
 
 SwiperCore.use([Navigation, Pagination]);
-
-const { Text } = Typography;
-
-const PackEllipsisText = styled(Text)`
-  font-size: ${(props: { size?: number }) => (props.size ? `${props.size}px` : "14px")};
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  text-overflow: -o-ellipsis-lastline;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-
-  &:hover {
-    color: #ff4d4f;
-  }
-`;
 
 const BannerItem = styled.img`
   display: block;
@@ -73,23 +56,6 @@ const AlbumItem = styled.div`
   }
 `;
 
-const AlbumPlayCount = styled.span`
-  position: absolute;
-  left: 10px;
-  bottom: 5px;
-  display: flex;
-  align-items: center;
-  padding: 0 5px;
-  background-color: rgba(0, 0, 0, 0.75);
-  border-radius: 10px;
-
-  .album-play-count,
-  svg {
-    color: #fff;
-    transform: scale(0.9);
-  }
-`;
-
 const AlbumMask = styled.div`
   position: absolute;
   top: 0;
@@ -116,48 +82,38 @@ const AlbumMask = styled.div`
 `;
 
 const Discovery: React.FC = () => {
-  const [banners, setBanners] = useState<any[]>([]);
-  const [recommendPlayList, setRecommendPlayList] = useState<any[]>([]);
+	const [banners, setBanners] = useState<any[]>([]);
+	const [recommendPlayList, setRecommendPlayList] = useState<any[]>([]);
 
-  const transformUnit = (val: number) => {
-    if (!val) return 0;
-    let length = val.toString().length;
-    if (length > 4 && length < 9) {
-      return `${(val / 10000).toFixed(2)}w`;
-    }
-    if (length > 8) {
-      return `${(val / 1000000000).toFixed(2)}亿`;
-    }
-    return val;
-  };
+	useEffect(() => {
+		const fetchBanners = async () => {
+			const response = await getBanners();
+			setBanners(response.banners || []);
+		};
+		const fetchRecommendPlayList = async () => {
+			const response = await getRecommendPlayList();
+			setRecommendPlayList(response.result || []);
+			console.log(response);
+		};
+		fetchBanners();
+		fetchRecommendPlayList();
+	}, []);
 
-  useEffect(() => {
-    const fetchBanners = async () => {
-      const response = await getBanners();
-      setBanners(response.banners || []);
-    };
-    const fetchRecommendPlayList = async () => {
-      const response = await getRecommendPlayList();
-      setRecommendPlayList(response.result || []);
-      console.log(response);
-    };
-    fetchBanners();
-    fetchRecommendPlayList();
-  }, []);
-
-  return (
+	return (
     <>
       <Swiper
         loop
         navigation
         pagination={{ clickable: true }}
-        onSwiper={swiper => {
-          console.log(swiper);
+        onSwiper={(swiper) => {
+        	console.log(swiper);
         }}>
         {banners.map((banner, index) => (
           <SwiperSlide
             key={`${banner.targetId}${index}`}
-            style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            style={{
+            	position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'
+            }}>
             <BannerItem src={banner.imageUrl} alt="" />
           </SwiperSlide>
         ))}
@@ -165,35 +121,32 @@ const Discovery: React.FC = () => {
       {/* 编辑精选 */}
       <AlbumTitle>编辑精选</AlbumTitle>
       <AlbumCard>
-        {recommendPlayList.map(item => (
+        {recommendPlayList.map((item) => (
           <Space key={item.id} direction="vertical" size="small">
             <Link to={`/detail/song/${item.id}`}>
               <AlbumItem>
                 <img src={item.picUrl} alt="" />
-                <AlbumPlayCount>
-                  <CaretRightOutlined />
-                  <span className="album-play-count">{transformUnit(item.playCount)}</span>
-                </AlbumPlayCount>
+                <PlayCount value={item.playCount} />
                 <AlbumMask className="album-mask">
                   <PlayCircleFilled />
                 </AlbumMask>
               </AlbumItem>
             </Link>
             <Link to={`/detail/song/${item.id}`}>
-              <PackEllipsisText strong title={item.name}>
+              <Text strong ellipsis title={item.name}>
                 {item.name}
-              </PackEllipsisText>
+              </Text>
             </Link>
             <Link to={`/detail/song/${item.id}`}>
-              <PackEllipsisText type="secondary" size={12} title={item.copywriter}>
+              <Text color="#8c8c8c" ellipsis size={13} title={item.copywriter}>
                 {item.copywriter}
-              </PackEllipsisText>
+              </Text>
             </Link>
           </Space>
         ))}
       </AlbumCard>
     </>
-  );
+	);
 };
 
 export default Discovery;

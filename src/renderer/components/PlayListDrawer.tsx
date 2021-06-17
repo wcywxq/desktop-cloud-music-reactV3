@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import styled from "styled-components";
+import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 type IProps = {
   width?: number | string;
@@ -12,7 +12,7 @@ const PlayListDrawerContainer = styled.div`
   top: 0;
   right: 0;
   z-index: 999;
-  width: ${(props: { width: number | string }) => (typeof props.width === "string" ? props.width : `${props.width}px`)};
+  width: ${(props: { width: number | string }) => (typeof props.width === 'string' ? props.width : `${props.width}px`)};
   height: 100%;
   overflow: auto;
   background-color: #fff;
@@ -20,15 +20,17 @@ const PlayListDrawerContainer = styled.div`
   transition: width .5s ease-in-out;
 `;
 
-const PlayListDrawer: React.FC<IProps> = props => {
-  const { visible, width, children } = props;
+const PlayListDrawer: React.FC<IProps> = (props) => {
+	const {
+		visible, width, children
+	} = props;
 
-  const currentWidth = useMemo(() => {
-    if (!visible) return 0;
-    return width || "30%";
-  }, [visible, width]);
+	const currentWidth = useMemo(() => {
+		if (!visible) { return 0; }
+		return width || '30%';
+	}, [visible, width]);
 
-  return <PlayListDrawerContainer width={currentWidth}>{children}</PlayListDrawerContainer>;
+	return <PlayListDrawerContainer width={currentWidth}>{children}</PlayListDrawerContainer>;
 };
 
 export default PlayListDrawer;

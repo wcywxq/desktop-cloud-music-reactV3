@@ -1195,6 +1195,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@ljharb/eslint-config@^17.6.0":
+  version "17.6.0"
+  resolved "https://registry.nlark.com/@ljharb/eslint-config/download/@ljharb/eslint-config-17.6.0.tgz#fd1b03dc88253c38902bbd7d5c271ab09f579f5b"
+  integrity sha1-/RsD3IglPDiQK719XCcasJ9Xn1s=
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.nlark.com/@nodelib/fs.scandir/download/@nodelib/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -3317,6 +3322,11 @@ date-fns@^2.15.0:
   version "2.21.3"
   resolved "https://registry.nlark.com/date-fns/download/date-fns-2.21.3.tgz?cache=0&sync_timestamp=1620446248863&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdate-fns%2Fdownload%2Fdate-fns-2.21.3.tgz"
   integrity sha1-j19oidepa7zB8OpQI5s5eoM1f5s=
+
+dayjs@^1.10.5:
+  version "1.10.5"
+  resolved "https://registry.nlark.com/dayjs/download/dayjs-1.10.5.tgz?cache=0&sync_timestamp=1622012230884&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdayjs%2Fdownload%2Fdayjs-1.10.5.tgz#5600df4548fc2453b3f163ebb2abbe965ccfb986"
+  integrity sha1-VgDfRUj8JFOz8WPrsqu+llzPuYY=
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9:
   version "2.6.9"

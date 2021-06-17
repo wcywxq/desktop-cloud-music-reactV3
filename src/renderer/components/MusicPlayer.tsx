@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
-  AlignLeftOutlined,
-  CaretRightOutlined,
-  HeartOutlined,
-  PauseOutlined,
-  ShareAltOutlined,
-  StepBackwardOutlined,
-  StepForwardOutlined,
-  SoundOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined
-} from "@ant-design/icons";
-import styled from "styled-components";
-import { Slider, Space, Dropdown, Menu, Popover } from "antd";
-import PlayListDrawer from "./PlayListDrawer";
-import { observer, useLocalObservable } from "mobx-react-lite";
-import store from "@/store";
+	AlignLeftOutlined,
+	CaretRightOutlined,
+	HeartOutlined,
+	PauseOutlined,
+	ShareAltOutlined,
+	StepBackwardOutlined,
+	StepForwardOutlined,
+	SoundOutlined,
+	MenuFoldOutlined,
+	MenuUnfoldOutlined
+} from '@ant-design/icons';
+import styled from 'styled-components';
+import { Slider, Space, Dropdown, Menu, Popover } from 'antd';
+import PlayListDrawer from './PlayListDrawer';
+import { observer, useLocalObservable } from 'mobx-react-lite';
+import store from '@/store';
 
 const MusicPlayerContainer = styled.div`
   display: flex;
@@ -91,7 +91,7 @@ const MusicPlayerMessage = styled.div`
 const MusicPlayerInfoText = styled.span`
   display: inline-block;
   transform: scale(0.9);
-  color: ${(props: { color?: string }) => props.color || "#333"};
+  color: ${(props: { color?: string }) => props.color || '#333'};
   cursor: pointer;
 `;
 
@@ -128,16 +128,16 @@ const MusicPlayerProgress = styled(Slider)`
 `;
 
 const MusicPlayer = observer(() => {
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+	const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
-  const { common } = useLocalObservable(() => store);
+	const { common } = useLocalObservable(() => store);
 
-  return (
+	return (
     <>
       <MusicPlayerContainer>
         <MusicPlayerControl>
           <MusicPlayerControlPrev />
-          <MusicPlayerControlMain onClick={() => setIsPlaying(prevState => !prevState)}>
+          <MusicPlayerControlMain onClick={() => setIsPlaying((prevState) => !prevState)}>
             {isPlaying ? <CaretRightOutlined /> : <PauseOutlined />}
           </MusicPlayerControlMain>
           <MusicPlayerControlNext />
@@ -166,7 +166,7 @@ const MusicPlayer = observer(() => {
           </Popover>
           <Dropdown
             placement="topCenter"
-            trigger={["click"]}
+            trigger={['click']}
             overlay={
               <Menu>
                 <Menu.Item key="3.0">3.0x</Menu.Item>
@@ -189,7 +189,7 @@ const MusicPlayer = observer(() => {
         </MusicPlayerExtra>
       </MusicPlayerContainer>
     </>
-  );
+	);
 });
 
 export default MusicPlayer;

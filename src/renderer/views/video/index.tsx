@@ -1,7 +1,5 @@
-import React from "react";
+import React from 'react';
 
-const Video: React.FC = () => {
-  return <>视频</>;
-};
+const Video: React.FC = () => <>视频</>;
 
 export default Video;

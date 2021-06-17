@@ -1,4 +1,4 @@
-import request from "@/utils/request";
+import { request } from '@/utils';
 
 export type BannerType = {
   type: 0 | 1 | 2 | 3;
@@ -12,11 +12,10 @@ export type RecommendPlayListType = {
  * @description 获取轮播图数据
  * @returns
  */
-export const getBanners = (params: BannerType = { type: 0 }) => request("/banner", { params });
+export const getBanners = (params: BannerType = { type: 0 }) => request('/banner', { params: params });
 
 /**
  * @description 推荐歌单
  * @returns
  */
-export const getRecommendPlayList = (params: RecommendPlayListType = { limit: 10 }) =>
-  request("/personalized", { params });
+export const getRecommendPlayList = (params: RecommendPlayListType = { limit: 10 }) => request('/personalized', { params: params });

@@ -1,16 +1,16 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 import {
-  FullscreenOutlined,
-  LeftOutlined,
-  RedoOutlined,
-  RightOutlined,
-  SearchOutlined,
-  SettingOutlined,
-  SkinOutlined
-} from "@ant-design/icons";
-import { Input } from "antd";
-import { Link } from "react-router-dom";
+	FullscreenOutlined,
+	LeftOutlined,
+	RedoOutlined,
+	RightOutlined,
+	SearchOutlined,
+	SettingOutlined,
+	SkinOutlined
+} from '@ant-design/icons';
+import { Input } from 'antd';
+import { Link } from 'react-router-dom';
 
 const HeaderControlContainer = styled.div`
   height: 100%;
@@ -42,8 +42,7 @@ const SearchControl = styled(Input)`
   }
 `;
 
-const HeaderControl: React.FC = () => {
-  return (
+const HeaderControl: React.FC = () => (
     <HeaderControlContainer>
       <LeftOutlined />
       <RightOutlined />
@@ -55,7 +54,6 @@ const HeaderControl: React.FC = () => {
       </Link>
       <FullscreenOutlined />
     </HeaderControlContainer>
-  );
-};
+);
 
 export default HeaderControl;
