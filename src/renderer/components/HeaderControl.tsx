@@ -1,16 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 import {
-	FullscreenOutlined,
-	LeftOutlined,
-	RedoOutlined,
-	RightOutlined,
-	SearchOutlined,
-	SettingOutlined,
-	SkinOutlined
-} from '@ant-design/icons';
-import { Input } from 'antd';
-import { Link } from 'react-router-dom';
+  FullscreenOutlined,
+  LeftOutlined,
+  RedoOutlined,
+  RightOutlined,
+  SettingOutlined,
+  SkinOutlined
+} from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import { Search } from "@/components/core";
 
 const HeaderControlContainer = styled.div`
   height: 100%;
@@ -25,35 +24,18 @@ const HeaderControlContainer = styled.div`
   }
 `;
 
-const SearchControl = styled(Input)`
-  border-radius: 20px;
-  background-color: #f5f5f5;
-  border: none;
-  box-shadow: none;
-
-  .ant-input {
-    background-color: #f5f5f5;
-  }
-
-  &:hover,
-  &:focus {
-    border: none;
-    box-shadow: none;
-  }
-`;
-
 const HeaderControl: React.FC = () => (
-    <HeaderControlContainer>
-      <LeftOutlined />
-      <RightOutlined />
-      <RedoOutlined />
-      <SearchControl prefix={<SearchOutlined />} />
-      <SkinOutlined />
-      <Link to="/setting">
-        <SettingOutlined />
-      </Link>
-      <FullscreenOutlined />
-    </HeaderControlContainer>
+  <HeaderControlContainer>
+    <LeftOutlined />
+    <RightOutlined />
+    <RedoOutlined />
+    <Search />
+    <SkinOutlined />
+    <Link to="/setting">
+      <SettingOutlined />
+    </Link>
+    <FullscreenOutlined />
+  </HeaderControlContainer>
 );
 
 export default HeaderControl;
