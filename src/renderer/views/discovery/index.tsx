@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import SwiperCore, { Navigation, Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Space } from 'antd';
-import styled from 'styled-components';
-import { PlayCircleFilled } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import { PlayCount, Text } from '@/components/core';
-import { getBanners, getRecommendPlayList } from './api';
+import React, { useState, useEffect } from "react";
+import SwiperCore, { Navigation, Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Space } from "antd";
+import styled from "styled-components";
+import { PlayCircleFilled } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import { PlayCount, Text } from "@/components/core";
+import { getBanners, getRecommendPlayList } from "./api";
 
-import 'swiper/swiper.less';
-import 'swiper/components/navigation/navigation.less';
-import 'swiper/components/pagination/pagination.less';
+import "swiper/swiper.less";
+import "swiper/components/navigation/navigation.less";
+import "swiper/components/pagination/pagination.less";
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -82,37 +82,40 @@ const AlbumMask = styled.div`
 `;
 
 const Discovery: React.FC = () => {
-	const [banners, setBanners] = useState<any[]>([]);
-	const [recommendPlayList, setRecommendPlayList] = useState<any[]>([]);
+  const [banners, setBanners] = useState<any[]>([]);
+  const [recommendPlayList, setRecommendPlayList] = useState<any[]>([]);
 
-	useEffect(() => {
-		const fetchBanners = async () => {
-			const response = await getBanners();
-			setBanners(response.banners || []);
-		};
-		const fetchRecommendPlayList = async () => {
-			const response = await getRecommendPlayList();
-			setRecommendPlayList(response.result || []);
-			console.log(response);
-		};
-		fetchBanners();
-		fetchRecommendPlayList();
-	}, []);
+  useEffect(() => {
+    const fetchBanners = async () => {
+      const response = await getBanners();
+      setBanners(response.banners || []);
+    };
+    const fetchRecommendPlayList = async () => {
+      const response = await getRecommendPlayList();
+      setRecommendPlayList(response.result || []);
+      console.log(response);
+    };
+    fetchBanners();
+    fetchRecommendPlayList();
+  }, []);
 
-	return (
+  return (
     <>
       <Swiper
         loop
         navigation
         pagination={{ clickable: true }}
-        onSwiper={(swiper) => {
-        	console.log(swiper);
+        onSwiper={swiper => {
+          console.log(swiper);
         }}>
         {banners.map((banner, index) => (
           <SwiperSlide
             key={`${banner.targetId}${index}`}
             style={{
-            	position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
             }}>
             <BannerItem src={banner.imageUrl} alt="" />
           </SwiperSlide>
@@ -121,9 +124,9 @@ const Discovery: React.FC = () => {
       {/* 编辑精选 */}
       <AlbumTitle>编辑精选</AlbumTitle>
       <AlbumCard>
-        {recommendPlayList.map((item) => (
+        {recommendPlayList.map(item => (
           <Space key={item.id} direction="vertical" size="small">
-            <Link to={`/detail/song/${item.id}`}>
+            <Link to={`/detail/song?id=${item.id}`}>
               <AlbumItem>
                 <img src={item.picUrl} alt="" />
                 <PlayCount value={item.playCount} />
@@ -132,12 +135,12 @@ const Discovery: React.FC = () => {
                 </AlbumMask>
               </AlbumItem>
             </Link>
-            <Link to={`/detail/song/${item.id}`}>
+            <Link to={`/detail/song?id=${item.id}`}>
               <Text strong ellipsis title={item.name}>
                 {item.name}
               </Text>
             </Link>
-            <Link to={`/detail/song/${item.id}`}>
+            <Link to={`/detail/song?id=${item.id}`}>
               <Text color="#8c8c8c" ellipsis size={13} title={item.copywriter}>
                 {item.copywriter}
               </Text>
@@ -146,7 +149,7 @@ const Discovery: React.FC = () => {
         ))}
       </AlbumCard>
     </>
-	);
+  );
 };
 
 export default Discovery;

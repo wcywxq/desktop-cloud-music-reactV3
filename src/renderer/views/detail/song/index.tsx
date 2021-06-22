@@ -3,6 +3,7 @@ import { Row, Col, Avatar, Button, Space, Divider, Tabs } from "antd";
 import { StarOutlined } from "@ant-design/icons";
 import { RouteConfigComponentProps } from "react-router-config";
 import styled from "styled-components";
+import qs from "query-string";
 import { PlayCount, Text, RaiseButton, IconFont, Search } from "@/components/core";
 import { transformDate, transformUnit } from "@/utils";
 import SongList from "./list";
@@ -58,6 +59,8 @@ const DetailSong: React.FC<RouteConfigComponentProps<{ id: string }>> = props =>
   const { match, history, location } = props;
   const [dataSet, setDataSet] = useState<DetailSongDataType>();
   const [activeKey, setActiveKey] = useState<string>("list");
+  const { id } = qs.parse(location.search) as { id: string };
+
   const activeColor = useCallback(
     (currentKey: string) => {
       return activeKey === currentKey ? "#333" : "#9b9b9b";
@@ -67,11 +70,11 @@ const DetailSong: React.FC<RouteConfigComponentProps<{ id: string }>> = props =>
 
   useEffect(() => {
     const fetchData = async (id: string) => {
-      const { playlist }: { playlist: DetailSongDataType } = await getSongDetail({ id: id });
+      const { playlist }: { playlist: DetailSongDataType } = await getSongDetail({ id });
       setDataSet(playlist);
     };
-    fetchData(match.params.id);
-  }, [match.params.id]);
+    fetchData(id);
+  }, [id]);
 
   useEffect(() => {
     const { pathname } = location;
@@ -85,7 +88,7 @@ const DetailSong: React.FC<RouteConfigComponentProps<{ id: string }>> = props =>
    */
   const onTabsChange = (currentActiveKey: string) => {
     setActiveKey(currentActiveKey);
-    history.push(`${match.url}/${currentActiveKey}`);
+    history.push(`${match.url}/${currentActiveKey}?id=${id}`);
   };
 
   return (

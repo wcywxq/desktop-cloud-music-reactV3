@@ -1,3 +1,4 @@
+import React from "react";
 import Loadable from "react-loadable";
 import { RouteConfig } from "react-router-config";
 import Loading from "@/components/Loading";
@@ -66,22 +67,22 @@ const routes: Routes[] = [
         component: RouterView,
         routes: [
           {
-            path: "/detail/song/:id",
+            path: "/detail/song",
             title: "歌单详情",
             component: Loadable({ loading: Loading, loader: () => import("@/views/detail/song") }),
             routes: [
               {
-                path: "/detail/song/:id/list",
+                path: "/detail/song/list",
                 title: "歌曲列表",
                 component: Loadable({ loading: Loading, loader: () => import("@/views/detail/song/list") })
               },
               {
-                path: "/detail/song/:id/comments",
+                path: "/detail/song/comments",
                 title: "评论",
                 component: Loadable({ loading: Loading, loader: () => import("@/views/detail/song/comments") })
               },
               {
-                path: "/detail/song/:id/collector",
+                path: "/detail/song/collector",
                 title: "收藏者",
                 component: Loadable({ loading: Loading, loader: () => import("@/views/detail/song/collector") })
               }
