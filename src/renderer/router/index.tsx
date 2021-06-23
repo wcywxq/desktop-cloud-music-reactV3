@@ -1,6 +1,7 @@
 import React from "react";
 import Loadable from "react-loadable";
 import { RouteConfig } from "react-router-config";
+import { Redirect } from "react-router-dom";
 import Loading from "@/components/Loading";
 import BasicLayout from "@/layouts/BasicLayout";
 import RouterView from "@/layouts/RouterView";
@@ -67,24 +68,24 @@ const routes: Routes[] = [
         component: RouterView,
         routes: [
           {
-            path: "/detail/song",
+            path: "/detail/playlist",
             title: "歌单详情",
-            component: Loadable({ loading: Loading, loader: () => import("@/views/detail/song") }),
+            component: Loadable({ loading: Loading, loader: () => import("@/views/detail/playlist") }),
             routes: [
               {
-                path: "/detail/song/list",
+                path: "/detail/playlist/songs",
                 title: "歌曲列表",
-                component: Loadable({ loading: Loading, loader: () => import("@/views/detail/song/list") })
+                component: Loadable({ loading: Loading, loader: () => import("@/views/detail/playlist/songs") })
               },
               {
-                path: "/detail/song/comments",
+                path: "/detail/playlist/comments",
                 title: "评论",
-                component: Loadable({ loading: Loading, loader: () => import("@/views/detail/song/comments") })
+                component: Loadable({ loading: Loading, loader: () => import("@/views/detail/playlist/comments") })
               },
               {
-                path: "/detail/song/collector",
+                path: "/detail/playlist/collector",
                 title: "收藏者",
-                component: Loadable({ loading: Loading, loader: () => import("@/views/detail/song/collector") })
+                component: Loadable({ loading: Loading, loader: () => import("@/views/detail/playlist/collector") })
               }
             ]
           }

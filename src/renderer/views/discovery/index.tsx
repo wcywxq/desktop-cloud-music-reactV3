@@ -126,7 +126,7 @@ const Discovery: React.FC = () => {
       <AlbumCard>
         {recommendPlayList.map(item => (
           <Space key={item.id} direction="vertical" size="small">
-            <Link to={`/detail/song?id=${item.id}`}>
+            <Link to={`/detail/playlist/songs?id=${item.id}`}>
               <AlbumItem>
                 <img src={item.picUrl} alt="" />
                 <PlayCount value={item.playCount} />
@@ -135,12 +135,12 @@ const Discovery: React.FC = () => {
                 </AlbumMask>
               </AlbumItem>
             </Link>
-            <Link to={`/detail/song?id=${item.id}`}>
+            <Link to={`/detail/playlist/songs?id=${item.id}`}>
               <Text strong ellipsis title={item.name}>
                 {item.name}
               </Text>
             </Link>
-            <Link to={`/detail/song?id=${item.id}`}>
+            <Link to={`/detail/playlist/songs?id=${item.id}`}>
               <Text color="#8c8c8c" ellipsis size={13} title={item.copywriter}>
                 {item.copywriter}
               </Text>

@@ -6,26 +6,29 @@ import styled from "styled-components";
 import qs from "query-string";
 import { PlayCount, Text, RaiseButton, IconFont, Search } from "@/components/core";
 import { transformDate, transformUnit } from "@/utils";
-import SongList from "./list";
+import SongList from "./songs";
 import Collector from "./collector";
 import Comments from "./comments";
-import { getSongDetail } from "./api";
+import { getPlaylistDetail } from "./api";
 
 type Creator = {
   avatarUrl: string;
   nickname: string;
 };
 
-export type DetailSongDataType = {
+type DetailSongDataType = {
   id: number;
+  commentCount: number;
   coverImgUrl: string;
   playCount: number;
   name: string;
   creator: Creator;
   createTime: Date;
   subscribedCount: number;
-  trackIds: number[]; // trackIds 可用来调用 song/detail 获取详细信息
+  trackIds: { id: number }[]; // trackIds 可用来调用 song/detail 获取详细信息
 };
+
+export type PropsDataType = { data?: DetailSongDataType };
 
 const { TabPane } = Tabs;
 
@@ -55,10 +58,10 @@ const TabControl = styled(Tabs)`
   }
 `;
 
-const DetailSong: React.FC<RouteConfigComponentProps<{ id: string }>> = props => {
+const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
   const { match, history, location } = props;
   const [dataSet, setDataSet] = useState<DetailSongDataType>();
-  const [activeKey, setActiveKey] = useState<string>("list");
+  const [activeKey, setActiveKey] = useState<string>("songs");
   const { id } = qs.parse(location.search) as { id: string };
 
   const activeColor = useCallback(
@@ -70,7 +73,7 @@ const DetailSong: React.FC<RouteConfigComponentProps<{ id: string }>> = props =>
 
   useEffect(() => {
     const fetchData = async (id: string) => {
-      const { playlist }: { playlist: DetailSongDataType } = await getSongDetail({ id });
+      const { playlist }: { playlist: DetailSongDataType } = await getPlaylistDetail({ id });
       setDataSet(playlist);
     };
     fetchData(id);
@@ -139,10 +142,10 @@ const DetailSong: React.FC<RouteConfigComponentProps<{ id: string }>> = props =>
         tabBarExtraContent={<Search placeholder="搜索歌单音乐" />}
         onChange={onTabsChange}>
         <TabPane
-          key="list"
+          key="songs"
           tab={
-            <Text size={16} strong color={activeColor("list")} active={activeColor("list")}>
-              歌曲列表
+            <Text size={16} strong color={activeColor("songs")} active={activeColor("songs")}>
+              歌曲列表({dataSet?.trackIds.length || 0})
             </Text>
           }>
           <SongList data={dataSet} />
@@ -151,10 +154,10 @@ const DetailSong: React.FC<RouteConfigComponentProps<{ id: string }>> = props =>
           key="comments"
           tab={
             <Text size={16} strong color={activeColor("comments")} active={activeColor("comments")}>
-              评论
+              评论({dataSet?.commentCount || 0})
             </Text>
           }>
-          <Comments />
+          <Comments data={dataSet} />
         </TabPane>
         <TabPane
           key="collector"
@@ -170,4 +173,4 @@ const DetailSong: React.FC<RouteConfigComponentProps<{ id: string }>> = props =>
   );
 };
 
-export default DetailSong;
+export default PlaylistDetail;
