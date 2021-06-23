@@ -4,23 +4,19 @@ import dayjs from "dayjs";
 import { HeartOutlined, DownloadOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import { Text } from "@/components/core";
-import type { PropsDataType } from "../index";
+import type { PlaylistDataType } from "../typeing";
 import { getSongDetail } from "../api";
 
-type Author = { id: number; name: string };
+type AuthorStruct = { id: number; name: string };
 
-type Album = { id: number; name: string };
+type AlbumStruct = { id: number; name: string };
 
 type SongsStruct = {
   id: number;
   name: string;
-  ar: Author[];
-  al: Album;
+  ar: AuthorStruct[];
+  al: AlbumStruct;
   dt: Date;
-};
-
-type SongsType = {
-  songs: SongsStruct[];
 };
 
 const columns: ColumnsType<SongsStruct> = [
@@ -55,7 +51,7 @@ const columns: ColumnsType<SongsStruct> = [
     title: "歌手",
     dataIndex: "ar",
     width: "15%",
-    render: (scope: Author[]) => (
+    render: (scope: AuthorStruct[]) => (
       <Text ellipsis title={scope.map(author => author.name).join(" / ")}>
         {scope.map(author => author.name).join(" / ")}
       </Text>
@@ -66,7 +62,7 @@ const columns: ColumnsType<SongsStruct> = [
     dataIndex: "al",
     width: "25%",
 
-    render: (scope: Album) => (
+    render: (scope: AlbumStruct) => (
       <Text ellipsis title={scope.name}>
         {scope.name}
       </Text>
@@ -80,13 +76,13 @@ const columns: ColumnsType<SongsStruct> = [
   }
 ];
 
-const Songs: React.FC<PropsDataType> = props => {
+const Songs: React.FC<PlaylistDataType> = props => {
   const { data } = props;
   const [listData, setListData] = useState<SongsStruct[]>([]);
 
   useEffect(() => {
     const fetchData = async (ids: string) => {
-      const { songs }: SongsType = await getSongDetail({ ids });
+      const { songs }: { songs: SongsStruct[] } = await getSongDetail({ ids });
       setListData(songs);
     };
     if (data) {

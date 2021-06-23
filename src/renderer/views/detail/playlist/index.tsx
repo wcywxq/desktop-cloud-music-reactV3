@@ -10,42 +10,14 @@ import SongList from "./songs";
 import Collector from "./collector";
 import Comments from "./comments";
 import { getPlaylistDetail } from "./api";
-
-type Creator = {
-  avatarUrl: string;
-  nickname: string;
-};
-
-type DetailSongDataType = {
-  id: number;
-  commentCount: number;
-  coverImgUrl: string;
-  playCount: number;
-  name: string;
-  creator: Creator;
-  createTime: Date;
-  subscribedCount: number;
-  trackIds: { id: number }[]; // trackIds 可用来调用 song/detail 获取详细信息
-};
-
-export type PropsDataType = { data?: DetailSongDataType };
+import type { DetailDataType } from "./typeing";
 
 const { TabPane } = Tabs;
-
-const Flex = styled(Row)`
-  gap: 25px;
-`;
 
 const Image = styled(Avatar)`
   position: relative;
   border-radius: 10px;
 `;
-
-const SpaceContainer = styled(Space)`
-  width: 100%;
-`;
-
-const MessageContainer = styled.div``;
 
 const TabControl = styled(Tabs)`
   .ant-tabs-ink-bar {
@@ -60,7 +32,7 @@ const TabControl = styled(Tabs)`
 
 const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
   const { match, history, location } = props;
-  const [dataSet, setDataSet] = useState<DetailSongDataType>();
+  const [dataSet, setDataSet] = useState<DetailDataType.Playlist>();
   const [activeKey, setActiveKey] = useState<string>("songs");
   const { id } = qs.parse(location.search) as { id: string };
 
@@ -73,7 +45,7 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
 
   useEffect(() => {
     const fetchData = async (id: string) => {
-      const { playlist }: { playlist: DetailSongDataType } = await getPlaylistDetail({ id });
+      const { playlist }: { playlist: DetailDataType.Playlist } = await getPlaylistDetail({ id });
       setDataSet(playlist);
     };
     fetchData(id);
@@ -96,23 +68,23 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
 
   return (
     <>
-      <MessageContainer>
-        <Flex>
+      <div>
+        <Row style={{ gap: "25px" }}>
           <Col>
             <Image shape="square" size={190} src={dataSet?.coverImgUrl} />
             <PlayCount value={dataSet?.playCount || 0} />
           </Col>
           <Col flex={1}>
             <Space size="large" direction="vertical">
-              <SpaceContainer>
+              <Space style={{ width: "100%" }}>
                 <Button danger size="small">
                   歌单
                 </Button>
                 <Text size={18} strong ellipsis active="#333" title={dataSet?.name}>
                   {dataSet?.name}
                 </Text>
-              </SpaceContainer>
-              <SpaceContainer>
+              </Space>
+              <Space style={{ width: "100%" }}>
                 <Avatar size="small" src={dataSet?.creator?.avatarUrl} />
                 <Text size={13} strong color="#cc8e4b" title={dataSet?.creator?.nickname}>
                   {dataSet?.creator?.nickname}
@@ -120,8 +92,8 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
                 <Text size={13} color="#8c8c8c" title={`${transformDate(dataSet?.createTime)}创建`}>
                   {transformDate(dataSet?.createTime)}创建
                 </Text>
-              </SpaceContainer>
-              <SpaceContainer>
+              </Space>
+              <Space style={{ width: "100%" }}>
                 <RaiseButton color="#fff" background="#ff4d4f" icon={<IconFont type="icon-play" />}>
                   继续播放
                 </RaiseButton>
@@ -131,11 +103,11 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
                 <RaiseButton color="#333" background="#f5f5f5" activebackground="#ddd">
                   ...
                 </RaiseButton>
-              </SpaceContainer>
+              </Space>
             </Space>
           </Col>
-        </Flex>
-      </MessageContainer>
+        </Row>
+      </div>
       <Divider />
       <TabControl
         activeKey={activeKey}
