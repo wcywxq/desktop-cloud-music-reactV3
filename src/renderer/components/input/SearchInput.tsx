@@ -5,13 +5,14 @@ import styled from "styled-components";
 
 interface ISearchInput {
   placeholder?: string;
-};
+  onPressEnter?: React.KeyboardEventHandler<HTMLInputElement>;
+}
 
-const SearchControl = styled(Input)`
+const Search = styled(Input)`
   border-radius: 20px;
   background-color: #f5f5f5;
-  border: none;
   box-shadow: none;
+  border: none;
 
   .ant-input {
     background-color: #f5f5f5;
@@ -19,14 +20,14 @@ const SearchControl = styled(Input)`
 
   &:hover,
   &:focus {
-    border: none;
     box-shadow: none;
+    border: none;
   }
 `;
 
 const SearchInput: React.FC<ISearchInput> = props => {
-  const { placeholder } = props;
-  return <SearchControl prefix={<SearchOutlined />} placeholder={placeholder || ""} />;
+  const { placeholder, onPressEnter } = props;
+  return <Search prefix={<SearchOutlined />} placeholder={placeholder || ""} onPressEnter={onPressEnter} allowClear />;
 };
 
 export default SearchInput;

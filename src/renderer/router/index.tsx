@@ -90,6 +90,11 @@ const routes: Routes[] = [
             ]
           }
         ]
+      },
+      {
+        path: "/search",
+        title: "搜索",
+        component: Loadable({ loading: Loading, loader: () => import("@/views/search") })
       }
     ]
   }

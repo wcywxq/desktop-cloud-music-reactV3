@@ -1,7 +1,7 @@
 import React from "react";
 import { List, Avatar, Spin } from "antd";
 import { Text } from "@/components/text";
-import type { CommentsDataType } from "../typeing";
+import type { CommentsDataType } from "@/typings";
 
 interface IProps {
   dataSource: CommentsDataType[];

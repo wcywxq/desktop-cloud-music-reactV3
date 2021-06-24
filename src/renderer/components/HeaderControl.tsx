@@ -9,6 +9,7 @@ import {
   SkinOutlined
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import type { RouteConfigComponentProps } from "react-router-config";
 import { SearchInput } from "@/components/input";
 
 const HeaderControlContainer = styled.div`
@@ -24,18 +25,26 @@ const HeaderControlContainer = styled.div`
   }
 `;
 
-const HeaderControl: React.FC = () => (
-  <HeaderControlContainer>
-    <LeftOutlined />
-    <RightOutlined />
-    <RedoOutlined />
-    <SearchInput />
-    <SkinOutlined />
-    <Link to="/setting">
-      <SettingOutlined />
-    </Link>
-    <FullscreenOutlined />
-  </HeaderControlContainer>
-);
+const HeaderControl: React.FC<RouteConfigComponentProps> = props => {
+  const { history } = props;
+
+  const onSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    history.push(`/search?keywords=${(event.target as any).value}`);
+  };
+
+  return (
+    <HeaderControlContainer>
+      <LeftOutlined />
+      <RightOutlined />
+      <RedoOutlined />
+      <SearchInput onPressEnter={onSearch} />
+      <SkinOutlined />
+      <Link to="/setting">
+        <SettingOutlined />
+      </Link>
+      <FullscreenOutlined />
+    </HeaderControlContainer>
+  );
+};
 
 export default HeaderControl;

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Row, Col, Avatar, Button, Space, Divider, Tabs, Skeleton } from "antd";
+import { Row, Col, Avatar, Button, Space, Divider, Skeleton } from "antd";
 import { StarOutlined } from "@ant-design/icons";
 import { RouteConfigComponentProps } from "react-router-config";
 import styled from "styled-components";
@@ -10,11 +10,13 @@ import { Text } from "@/components/text";
 import { RaiseButton } from "@/components/button";
 import { SearchInput } from "@/components/input";
 import { IconFont } from "@/components/icon";
+import { Tabs, TabPaneStruct } from "@/components/tabs";
+import { useTabActive } from "@/hooks";
 import SongList from "./songs";
 import Collector from "./collector";
 import Comments from "./comments";
 import { getPlaylistDetail } from "./api";
-import type { DetailDataType } from "./typeing";
+import type { DetailDataType } from "@/typings";
 
 const { TabPane } = Tabs;
 
@@ -23,30 +25,17 @@ const Image = styled(Avatar)`
   border-radius: 10px;
 `;
 
-const TabControl = styled(Tabs)`
-  .ant-tabs-ink-bar {
-    background: transparent;
-  }
-  .ant-tabs-nav {
-    &:before {
-      border-bottom: none;
-    }
-  }
-`;
-
 const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
   const { match, history, location } = props;
   const [loading, setLoading] = useState<boolean>(false);
   const [dataSet, setDataSet] = useState<DetailDataType.Playlist>();
-  const [activeKey, setActiveKey] = useState<string>("songs");
   const { id } = qs.parse(location.search) as { id: string };
-
-  const activeColor = useCallback(
-    (currentKey: string) => {
-      return activeKey === currentKey ? "#333" : "#9b9b9b";
-    },
-    [activeKey]
-  );
+  const tabPaneList: TabPaneStruct[] = [
+    { key: "songs", title: `歌曲列表(${dataSet?.trackIds.length || 0})`, component: <SongList data={dataSet} /> },
+    { key: "comments", title: `评论(${dataSet?.commentCount || 0})`, component: <Comments data={dataSet} /> },
+    { key: "collector", title: `收藏者`, component: <Collector /> }
+  ];
+  const { activeKey, setActiveKey, activeColor } = useTabActive(tabPaneList.map(item => item.key));
 
   useEffect(() => {
     const fetchData = async (id: string) => {
@@ -67,7 +56,7 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
     const { pathname } = location;
     const activePath = pathname.split("/").slice(-1)[0];
     setActiveKey(activePath);
-  }, [location]);
+  }, [location, setActiveKey]);
 
   /**
    * @description 选项卡切换监听
@@ -79,10 +68,10 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
   };
 
   return (
-    <Skeleton active avatar loading={loading}>
+    <Skeleton active avatar={{ shape: "square", size: 160 }} loading={loading}>
       <Row style={{ gap: "25px" }}>
         <Col>
-          <Image shape="square" size={190} src={dataSet?.coverImgUrl} />
+          <Image shape="square" size={160} src={dataSet?.coverImgUrl} />
           <PlayCount value={dataSet?.playCount || 0} />
         </Col>
         <Col flex={1}>
@@ -119,38 +108,22 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
         </Col>
       </Row>
       <Divider />
-      <TabControl
+      <Tabs
         activeKey={activeKey}
         tabBarExtraContent={<SearchInput placeholder="搜索歌单音乐" />}
         onChange={onTabsChange}>
-        <TabPane
-          key="songs"
-          tab={
-            <Text size={16} strong color={activeColor("songs")} active={activeColor("songs")}>
-              歌曲列表({dataSet?.trackIds.length || 0})
-            </Text>
-          }>
-          <SongList data={dataSet} />
-        </TabPane>
-        <TabPane
-          key="comments"
-          tab={
-            <Text size={16} strong color={activeColor("comments")} active={activeColor("comments")}>
-              评论({dataSet?.commentCount || 0})
-            </Text>
-          }>
-          <Comments data={dataSet} />
-        </TabPane>
-        <TabPane
-          key="collector"
-          tab={
-            <Text size={16} strong color={activeColor("collector")} active={activeColor("collector")}>
-              收藏者
-            </Text>
-          }>
-          <Collector />
-        </TabPane>
-      </TabControl>
+        {tabPaneList.map(item => (
+          <TabPane
+            key={item.key}
+            tab={
+              <Text size={16} strong color={activeColor(item.key)} active={activeColor(item.key)}>
+                {item.title}
+              </Text>
+            }>
+            {item.component}
+          </TabPane>
+        ))}
+      </Tabs>
     </Skeleton>
   );
 };

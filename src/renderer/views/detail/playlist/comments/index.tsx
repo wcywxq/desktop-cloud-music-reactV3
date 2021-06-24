@@ -3,7 +3,7 @@ import { Space, Row, Col, Divider, Pagination, Card } from "antd";
 import { DownOutlined, LikeOutlined, MessageOutlined, ShareAltOutlined, UpOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { Text } from "@/components/text";
-import type { PlaylistDataType, CommentsDataType } from "../typeing";
+import type { PlaylistDataType, CommentsDataType } from "@/typings";
 import { getPlaylistComments } from "../api";
 import Reply from "../components/Reply";
 

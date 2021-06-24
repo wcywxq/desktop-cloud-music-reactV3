@@ -1,4 +1,34 @@
-export declare namespace DetailDataType {
+declare module "*.png";
+declare module "*.gif";
+declare module "*.jpg";
+declare module "*.jpeg";
+declare module "*.webp";
+declare module "*.svg";
+declare module "*.psd";
+declare module "*.bmp";
+declare module "*.tif";
+declare module "*.scss";
+
+declare interface AuthorStruct {
+  id: number;
+  name: string;
+}
+
+declare interface AlbumStruct {
+  id: number;
+  name: string;
+}
+
+declare interface SongsStruct {
+  id: number;
+  name: string;
+  ar: AuthorStruct[];
+  al: AlbumStruct;
+  dt: Date;
+}
+
+// detail
+declare namespace DetailDataType {
   interface Playlist {
     id: number;
     commentCount: number;
@@ -31,4 +61,12 @@ export interface CommentsDataType {
   time?: Date;
   liked?: boolean;
   likedCount?: number;
+}
+
+// search
+declare namespace SearchDataType {
+  interface Single {
+    songCount: number;
+    songs: SongsStruct[];
+  }
 }

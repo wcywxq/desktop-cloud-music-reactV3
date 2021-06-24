@@ -203,7 +203,7 @@ const BasicLayout = observer((props: RouteConfigComponentProps) => {
         </BasicLayoutSider>
         <Layout>
           <BasicLayoutHeader>
-            <HeaderControl />
+            <HeaderControl {...props} />
           </BasicLayoutHeader>
           <BasicLayoutContent>{renderRoutes(route?.routes)}</BasicLayoutContent>
         </Layout>
