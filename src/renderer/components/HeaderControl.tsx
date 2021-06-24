@@ -9,7 +9,7 @@ import {
   SkinOutlined
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { Search } from "@/components/core";
+import { SearchInput } from "@/components/input";
 
 const HeaderControlContainer = styled.div`
   height: 100%;
@@ -29,7 +29,7 @@ const HeaderControl: React.FC = () => (
     <LeftOutlined />
     <RightOutlined />
     <RedoOutlined />
-    <Search />
+    <SearchInput />
     <SkinOutlined />
     <Link to="/setting">
       <SettingOutlined />

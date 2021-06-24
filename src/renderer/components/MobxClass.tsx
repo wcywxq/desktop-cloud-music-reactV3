@@ -2,10 +2,11 @@ import { inject, observer } from "mobx-react";
 import React from "react";
 import { CounterStore } from "@/store";
 
-type IProps = {
+interface IProps {
   counter?: CounterStore;
 };
-type IState = {};
+
+interface IState {};
 
 @inject("counter")
 @observer

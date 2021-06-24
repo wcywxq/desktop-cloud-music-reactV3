@@ -1,10 +1,3 @@
-export type Creator = {
-  avatarUrl: string;
-  nickname: string;
-};
-
-export type TrackIds = { id: number };
-
 export declare namespace DetailDataType {
   interface Playlist {
     id: number;
@@ -12,10 +5,13 @@ export declare namespace DetailDataType {
     coverImgUrl: string;
     playCount: number;
     name: string;
-    creator: Creator;
+    creator: {
+      avatarUrl: string;
+      nickname: string;
+    };
     createTime: Date;
     subscribedCount: number;
-    trackIds: TrackIds[]; // trackIds 可用来调用 song/detail 获取详细信息
+    trackIds: { id: number }[]; // trackIds 可用来调用 song/detail 获取详细信息
   }
 }
 
@@ -23,14 +19,14 @@ export interface PlaylistDataType {
   data?: DetailDataType.Playlist;
 }
 
-export interface CommentsType {
+export interface CommentsDataType {
   commentId: number;
   user: {
     avatarUrl: string;
     nickname: string;
   };
   content: string;
-  beReplied: CommentsType[];
+  beReplied: CommentsDataType[];
   visible: boolean;
   time?: Date;
   liked?: boolean;

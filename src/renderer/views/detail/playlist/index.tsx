@@ -1,11 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Row, Col, Avatar, Button, Space, Divider, Tabs } from "antd";
+import { Row, Col, Avatar, Button, Space, Divider, Tabs, Skeleton } from "antd";
 import { StarOutlined } from "@ant-design/icons";
 import { RouteConfigComponentProps } from "react-router-config";
 import styled from "styled-components";
 import qs from "query-string";
-import { PlayCount, Text, RaiseButton, IconFont, Search } from "@/components/core";
 import { transformDate, transformUnit } from "@/utils";
+import { PlayCount } from "@/components/core";
+import { Text } from "@/components/text";
+import { RaiseButton } from "@/components/button";
+import { SearchInput } from "@/components/input";
+import { IconFont } from "@/components/icon";
 import SongList from "./songs";
 import Collector from "./collector";
 import Comments from "./comments";
@@ -32,6 +36,7 @@ const TabControl = styled(Tabs)`
 
 const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
   const { match, history, location } = props;
+  const [loading, setLoading] = useState<boolean>(false);
   const [dataSet, setDataSet] = useState<DetailDataType.Playlist>();
   const [activeKey, setActiveKey] = useState<string>("songs");
   const { id } = qs.parse(location.search) as { id: string };
@@ -45,8 +50,15 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
 
   useEffect(() => {
     const fetchData = async (id: string) => {
-      const { playlist }: { playlist: DetailDataType.Playlist } = await getPlaylistDetail({ id });
-      setDataSet(playlist);
+      setLoading(true);
+      try {
+        const { playlist }: { playlist: DetailDataType.Playlist } = await getPlaylistDetail({ id });
+        setDataSet(playlist);
+      } catch (err) {
+        throw new Error(err);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchData(id);
   }, [id]);
@@ -67,51 +79,49 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
   };
 
   return (
-    <>
-      <div>
-        <Row style={{ gap: "25px" }}>
-          <Col>
-            <Image shape="square" size={190} src={dataSet?.coverImgUrl} />
-            <PlayCount value={dataSet?.playCount || 0} />
-          </Col>
-          <Col flex={1}>
-            <Space size="large" direction="vertical">
-              <Space style={{ width: "100%" }}>
-                <Button danger size="small">
-                  歌单
-                </Button>
-                <Text size={18} strong ellipsis active="#333" title={dataSet?.name}>
-                  {dataSet?.name}
-                </Text>
-              </Space>
-              <Space style={{ width: "100%" }}>
-                <Avatar size="small" src={dataSet?.creator?.avatarUrl} />
-                <Text size={13} strong color="#cc8e4b" title={dataSet?.creator?.nickname}>
-                  {dataSet?.creator?.nickname}
-                </Text>
-                <Text size={13} color="#8c8c8c" title={`${transformDate(dataSet?.createTime)}创建`}>
-                  {transformDate(dataSet?.createTime)}创建
-                </Text>
-              </Space>
-              <Space style={{ width: "100%" }}>
-                <RaiseButton color="#fff" background="#ff4d4f" icon={<IconFont type="icon-play" />}>
-                  继续播放
-                </RaiseButton>
-                <RaiseButton color="#333" background="#f5f5f5" activebackground="#ddd" icon={<StarOutlined />}>
-                  收藏({transformUnit(dataSet?.subscribedCount || 0)})
-                </RaiseButton>
-                <RaiseButton color="#333" background="#f5f5f5" activebackground="#ddd">
-                  ...
-                </RaiseButton>
-              </Space>
+    <Skeleton active avatar loading={loading}>
+      <Row style={{ gap: "25px" }}>
+        <Col>
+          <Image shape="square" size={190} src={dataSet?.coverImgUrl} />
+          <PlayCount value={dataSet?.playCount || 0} />
+        </Col>
+        <Col flex={1}>
+          <Space size="large" direction="vertical">
+            <Space style={{ width: "100%" }}>
+              <Button danger size="small">
+                歌单
+              </Button>
+              <Text size={18} strong ellipsis active="#333" title={dataSet?.name}>
+                {dataSet?.name}
+              </Text>
             </Space>
-          </Col>
-        </Row>
-      </div>
+            <Space style={{ width: "100%" }}>
+              <Avatar size="small" src={dataSet?.creator?.avatarUrl} />
+              <Text size={13} strong color="#cc8e4b" title={dataSet?.creator?.nickname}>
+                {dataSet?.creator?.nickname}
+              </Text>
+              <Text size={13} color="#8c8c8c" title={`${transformDate(dataSet?.createTime)}创建`}>
+                {transformDate(dataSet?.createTime)}创建
+              </Text>
+            </Space>
+            <Space style={{ width: "100%" }}>
+              <RaiseButton color="#fff" background="#ff4d4f" icon={<IconFont type="icon-play" />}>
+                继续播放
+              </RaiseButton>
+              <RaiseButton color="#333" background="#f5f5f5" activebackground="#ddd" icon={<StarOutlined />}>
+                收藏({transformUnit(dataSet?.subscribedCount || 0)})
+              </RaiseButton>
+              <RaiseButton color="#333" background="#f5f5f5" activebackground="#ddd">
+                ...
+              </RaiseButton>
+            </Space>
+          </Space>
+        </Col>
+      </Row>
       <Divider />
       <TabControl
         activeKey={activeKey}
-        tabBarExtraContent={<Search placeholder="搜索歌单音乐" />}
+        tabBarExtraContent={<SearchInput placeholder="搜索歌单音乐" />}
         onChange={onTabsChange}>
         <TabPane
           key="songs"
@@ -141,7 +151,7 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
           <Collector />
         </TabPane>
       </TabControl>
-    </>
+    </Skeleton>
   );
 };
 

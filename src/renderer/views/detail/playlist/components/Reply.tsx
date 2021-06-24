@@ -1,14 +1,13 @@
 import React from "react";
-import { List, Avatar } from "antd";
-import styled from "styled-components";
-import { Text } from "@/components/core";
-import type { CommentsType } from "../typeing";
+import { List, Avatar, Spin } from "antd";
+import { Text } from "@/components/text";
+import type { CommentsDataType } from "../typeing";
 
-type IProps = {
-  dataSource: CommentsType[];
-  renderItem: (item: CommentsType) => React.ReactNode;
+interface IProps {
+  dataSource: CommentsDataType[];
+  renderItem: (item: CommentsDataType) => React.ReactNode;
   style?: React.CSSProperties;
-};
+}
 
 const Reply: React.FC<IProps> = props => {
   const { dataSource, renderItem, style } = props;
@@ -17,7 +16,7 @@ const Reply: React.FC<IProps> = props => {
     return (
       <List
         size="small"
-        itemLayout="vertical"
+        itemLayout="horizontal"
         dataSource={dataSource}
         renderItem={item => {
           const { user } = item;

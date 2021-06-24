@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IconFont } from '@/components/core';
+import { IconFont } from '@/components/icon';
 import { transformUnit } from "@/utils";
 
 const Container = styled.span`

@@ -1,21 +1,24 @@
-import { request } from '@/utils';
+import { request } from "@/utils";
 
-export type BannerType = {
-  type: 0 | 1 | 2 | 3;
-};
+type BannerType = 0 | 1 | 2 | 3;
 
-export type RecommendPlayListType = {
+export interface IBanner {
+  type: BannerType;
+}
+
+export interface IRecommendPlaylist {
   limit: number;
-};
+}
 
 /**
  * @description 获取轮播图数据
  * @returns
  */
-export const getBanners = (params: BannerType = { type: 0 }) => request('/banner', { params: params });
+export const getBanners = (params: IBanner = { type: 0 }) => request("/banner", { params });
 
 /**
  * @description 推荐歌单
  * @returns
  */
-export const getRecommendPlayList = (params: RecommendPlayListType = { limit: 10 }) => request('/personalized', { params: params });
+export const getRecommendPlaylist = (params: IRecommendPlaylist = { limit: 10 }) =>
+  request("/personalized", { params });

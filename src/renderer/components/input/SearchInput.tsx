@@ -3,7 +3,7 @@ import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
-type SearchProps = {
+interface ISearchInput {
   placeholder?: string;
 };
 
@@ -24,9 +24,9 @@ const SearchControl = styled(Input)`
   }
 `;
 
-const Search: React.FC<SearchProps> = props => {
+const SearchInput: React.FC<ISearchInput> = props => {
   const { placeholder } = props;
   return <SearchControl prefix={<SearchOutlined />} placeholder={placeholder || ""} />;
 };
 
-export default Search;
+export default SearchInput;

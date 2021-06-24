@@ -5,8 +5,9 @@ import { Space } from "antd";
 import styled from "styled-components";
 import { PlayCircleFilled } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { PlayCount, Text } from "@/components/core";
-import { getBanners, getRecommendPlayList } from "./api";
+import { PlayCount } from "@/components/core";
+import { Text } from "@/components/text";
+import { getBanners, getRecommendPlaylist } from "./api";
 
 import "swiper/swiper.less";
 import "swiper/components/navigation/navigation.less";
@@ -91,7 +92,7 @@ const Discovery: React.FC = () => {
       setBanners(response.banners || []);
     };
     const fetchRecommendPlayList = async () => {
-      const response = await getRecommendPlayList();
+      const response = await getRecommendPlaylist();
       setRecommendPlayList(response.result || []);
       console.log(response);
     };

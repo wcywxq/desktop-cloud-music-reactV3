@@ -1,25 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { Space, Table } from "antd";
+import { Space, Table, Spin } from "antd";
 import dayjs from "dayjs";
 import { HeartOutlined, DownloadOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import { Text } from "@/components/core";
+import { Text } from "@/components/text";
 import type { PlaylistDataType } from "../typeing";
 import { getSongDetail } from "../api";
 
-type AuthorStruct = { id: number; name: string };
-
-type AlbumStruct = { id: number; name: string };
-
-type SongsStruct = {
+interface IAuthor {
   id: number;
   name: string;
-  ar: AuthorStruct[];
-  al: AlbumStruct;
-  dt: Date;
-};
+}
 
-const columns: ColumnsType<SongsStruct> = [
+interface IAlbum {
+  id: number;
+  name: string;
+}
+
+interface ISongs {
+  id: number;
+  name: string;
+  ar: IAuthor[];
+  al: IAlbum;
+  dt: Date;
+}
+
+const columns: ColumnsType<ISongs> = [
   {
     dataIndex: "id",
     width: "10%",
@@ -51,7 +57,7 @@ const columns: ColumnsType<SongsStruct> = [
     title: "歌手",
     dataIndex: "ar",
     width: "15%",
-    render: (scope: AuthorStruct[]) => (
+    render: (scope: IAuthor[]) => (
       <Text ellipsis title={scope.map(author => author.name).join(" / ")}>
         {scope.map(author => author.name).join(" / ")}
       </Text>
@@ -62,7 +68,7 @@ const columns: ColumnsType<SongsStruct> = [
     dataIndex: "al",
     width: "25%",
 
-    render: (scope: AlbumStruct) => (
+    render: (scope: IAlbum) => (
       <Text ellipsis title={scope.name}>
         {scope.name}
       </Text>
@@ -78,12 +84,20 @@ const columns: ColumnsType<SongsStruct> = [
 
 const Songs: React.FC<PlaylistDataType> = props => {
   const { data } = props;
-  const [listData, setListData] = useState<SongsStruct[]>([]);
+  const [listData, setListData] = useState<ISongs[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async (ids: string) => {
-      const { songs }: { songs: SongsStruct[] } = await getSongDetail({ ids });
-      setListData(songs);
+      setLoading(true);
+      try {
+        const { songs }: { songs: ISongs[] } = await getSongDetail({ ids });
+        setListData(songs);
+      } catch (err) {
+        throw new Error(err);
+      } finally {
+        setLoading(false);
+      }
     };
     if (data) {
       const { trackIds } = data;
@@ -92,7 +106,15 @@ const Songs: React.FC<PlaylistDataType> = props => {
     }
   }, [data]);
 
-  return <Table<SongsStruct> size="small" rowKey={record => record.id} columns={columns} dataSource={listData} />;
+  return (
+    <Table<ISongs>
+      size="small"
+      rowKey={record => record.id}
+      loading={loading}
+      columns={columns}
+      dataSource={listData}
+    />
+  );
 };
 
 export default Songs;

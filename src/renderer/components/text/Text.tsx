@@ -1,14 +1,15 @@
 // import React from "react";
 import styled, { css } from "styled-components";
 
-type PackTextProps = {
+type Cursor = "pointer" | "auto";
+interface IText {
   size?: number;
   ellipsis?: boolean;
   color?: string;
   active?: string;
   strong?: boolean;
-  cursor?: "pointer" | "auto";
-};
+  cursor?: Cursor;
+}
 
 const strongStyle = css`
   font-weight: bold;
@@ -26,14 +27,14 @@ const ellipsisStyle = css`
 const Text = styled.span`
   display: inline-block;
   transition: all 0.3s ease-in-out;
-  color: ${({ color }: PackTextProps) => color || "#333"};
-  font-size: ${({ size }: PackTextProps) => (size && size > 14 ? `${size}px` : "14px")};
-  transform: scale(${({ size }: PackTextProps) => (size && size <= 14 ? size / 14 : 1)});
-  cursor: ${({ cursor }: PackTextProps) => cursor || "pointer"};
-  ${({ strong }: PackTextProps) => strong && strongStyle};
-  ${({ ellipsis }: PackTextProps) => ellipsis && ellipsisStyle};
+  color: ${({ color }: IText) => color || "#333"};
+  font-size: ${({ size }: IText) => (size && size > 14 ? `${size}px` : "14px")};
+  transform: scale(${({ size }: IText) => (size && size <= 14 ? size / 14 : 1)});
+  cursor: ${({ cursor }: IText) => cursor || "pointer"};
+  ${({ strong }: IText) => strong && strongStyle};
+  ${({ ellipsis }: IText) => ellipsis && ellipsisStyle};
   &:hover {
-    color: ${({ active }: PackTextProps) => active || "#ff4d4f"};
+    color: ${({ active }: IText) => active || "#ff4d4f"};
   }
 `;
 
