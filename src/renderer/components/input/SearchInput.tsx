@@ -6,6 +6,7 @@ import styled from "styled-components";
 interface ISearchInput {
   placeholder?: string;
   onPressEnter?: React.KeyboardEventHandler<HTMLInputElement>;
+  width?: number;
 }
 
 const Search = styled(Input)`
@@ -26,8 +27,16 @@ const Search = styled(Input)`
 `;
 
 const SearchInput: React.FC<ISearchInput> = props => {
-  const { placeholder, onPressEnter } = props;
-  return <Search prefix={<SearchOutlined />} placeholder={placeholder || ""} onPressEnter={onPressEnter} allowClear />;
+  const { placeholder, onPressEnter, width } = props;
+  return (
+    <Search
+      style={{ width: `${width}px` }}
+      prefix={<SearchOutlined />}
+      placeholder={placeholder || ""}
+      onPressEnter={onPressEnter}
+      allowClear
+    />
+  );
 };
 
 export default SearchInput;

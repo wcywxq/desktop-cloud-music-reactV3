@@ -94,7 +94,49 @@ const routes: Routes[] = [
       {
         path: "/search",
         title: "搜索",
-        component: Loadable({ loading: Loading, loader: () => import("@/views/search") })
+        component: Loadable({ loading: Loading, loader: () => import("@/views/search") }),
+        routes: [
+          {
+            path: "/search/single",
+            title: "单曲",
+            component: Loadable({ loading: Loading, loader: () => import("@/views/search/single") })
+          },
+          {
+            path: "/search/singer",
+            title: "歌手",
+            component: Loadable({ loading: Loading, loader: () => import("@/views/search/singer") })
+          },
+          {
+            path: "/search/album",
+            title: "专辑",
+            component: Loadable({ loading: Loading, loader: () => import("@/views/search/album") })
+          },
+          {
+            path: "/search/video",
+            title: "视频",
+            component: Loadable({ loading: Loading, loader: () => import("@/views/search/video") })
+          },
+          {
+            path: "/search/playlist",
+            title: "歌单",
+            component: Loadable({ loading: Loading, loader: () => import("@/views/search/playlist") })
+          },
+          {
+            path: "/search/lyric",
+            title: "歌词",
+            component: Loadable({ loading: Loading, loader: () => import("@/views/search/lyric") })
+          },
+          {
+            path: "/search/radio",
+            title: "电台",
+            component: Loadable({ loading: Loading, loader: () => import("@/views/search/radio") })
+          },
+          {
+            path: "/search/user",
+            title: "用户",
+            component: Loadable({ loading: Loading, loader: () => import("@/views/search/user") })
+          }
+        ]
       }
     ]
   }

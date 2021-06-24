@@ -5,8 +5,16 @@ import { useTabActive } from "@/hooks";
 import { Tabs, TabPaneStruct } from "@/components/tabs";
 import { Text } from "@/components/text";
 import type { SearchState, SearchStateType, SearchType } from "@/typings";
+import { SEARCH_TYPE_MAP } from "@/utils";
 import { searchWithKeywords } from "./api";
-import Single from "./Single";
+import Single from "./single";
+import Singer from "./singer";
+import Album from "./album";
+import Video from "./video";
+import Playlist from "./playlist";
+import Lyric from "./lyric";
+import Radio from "./radio";
+import User from "./user";
 
 const { TabPane } = Tabs;
 
@@ -29,14 +37,50 @@ const Search: React.FC<RouteConfigComponentProps> = props => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const tabPaneList: TabPaneStruct[] = [
-    { key: "1", title: "单曲", component: <Single state={dataSet}>单曲</Single> },
-    { key: "100", title: "歌手", component: <>歌手</> },
-    { key: "10", title: "专辑", component: <>专辑</> },
-    { key: "1014", title: "视频", component: <>视频</> },
-    { key: "1000", title: "歌单", component: <>歌单</> },
-    { key: "1006", title: "歌词", component: <>歌词</> },
-    { key: "1009", title: "主播电台", component: <>主播电台</> },
-    { key: "1002", title: "用户", component: <>用户</> }
+    {
+      key: "single",
+      title: "单曲",
+      component: (
+        <Single state={dataSet} loading={loading}>
+          单曲
+        </Single>
+      )
+    },
+    {
+      key: "singer",
+      title: "歌手",
+      component: <Singer state={dataSet}>歌手</Singer>
+    },
+    {
+      key: "album",
+      title: "专辑",
+      component: <Album state={dataSet}>专辑</Album>
+    },
+    {
+      key: "video",
+      title: "视频",
+      component: <Video state={dataSet}>视频</Video>
+    },
+    {
+      key: "playlist",
+      title: "歌单",
+      component: <Playlist state={dataSet}>歌单</Playlist>
+    },
+    {
+      key: "lyric",
+      title: "歌词",
+      component: <Lyric state={dataSet}>歌词</Lyric>
+    },
+    {
+      key: "radio",
+      title: "主播电台",
+      component: <Radio state={dataSet}>主播电台</Radio>
+    },
+    {
+      key: "user",
+      title: "用户",
+      component: <User state={dataSet}>用户</User>
+    }
   ];
 
   const { activeKey, setActiveKey, activeColor } = useTabActive(tabPaneList.map(item => item.key));
@@ -62,7 +106,7 @@ const Search: React.FC<RouteConfigComponentProps> = props => {
    */
   const onTabsChange = (currentActiveKey: string) => {
     setActiveKey(currentActiveKey);
-    history.push(`${match.url}?keywords=${keywords}&type=${currentActiveKey}`);
+    history.push(`${match.url}?keywords=${keywords}&type=${SEARCH_TYPE_MAP[currentActiveKey]}`);
   };
 
   return (

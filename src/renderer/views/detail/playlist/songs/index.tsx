@@ -49,7 +49,6 @@ const columns: ColumnsType<SongsStruct> = [
     title: "专辑",
     dataIndex: "al",
     width: "25%",
-
     render: (scope: AlbumStruct) => (
       <Text ellipsis title={scope.name}>
         {scope.name}

@@ -88,7 +88,7 @@ declare namespace SearchState {
 
   interface Playlist {
     playlistCount: number;
-    playlists: PlaylistStruct;
+    playlists: PlaylistStruct[];
   }
 
   interface User {
