@@ -20,7 +20,7 @@ const { TabPane } = Tabs;
 
 const Search: React.FC<RouteConfigComponentProps> = props => {
   const { match, location, history } = props;
-  const { keywords, type } = qs.parse(location.search) as unknown as { keywords: string; type: SearchType };
+  const { keywords } = qs.parse(location.search) as unknown as { keywords: string };
   const [dataSet, setDataSet] =
     useState<
       Partial<
@@ -35,6 +35,7 @@ const Search: React.FC<RouteConfigComponentProps> = props => {
       >
     >();
   const [loading, setLoading] = useState<boolean>(false);
+  const activePath = location.pathname.split("/").slice(-1)[0];
 
   const tabPaneList: TabPaneStruct[] = [
     {
@@ -97,8 +98,12 @@ const Search: React.FC<RouteConfigComponentProps> = props => {
         setLoading(false);
       }
     };
-    fetchData(keywords, type);
-  }, [keywords, type]);
+    fetchData(keywords, SEARCH_TYPE_MAP[activePath]);
+  }, [activePath, keywords]);
+
+  useEffect(() => {
+    setActiveKey(activePath);
+  }, [activePath, setActiveKey]);
 
   /**
    * @description 选项卡切换监听
@@ -106,7 +111,7 @@ const Search: React.FC<RouteConfigComponentProps> = props => {
    */
   const onTabsChange = (currentActiveKey: string) => {
     setActiveKey(currentActiveKey);
-    history.push(`${match.url}?keywords=${keywords}&type=${SEARCH_TYPE_MAP[currentActiveKey]}`);
+    history.push(`${match.url}/${currentActiveKey}?keywords=${keywords}`);
   };
 
   return (

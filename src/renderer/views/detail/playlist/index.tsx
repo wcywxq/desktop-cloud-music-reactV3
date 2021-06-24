@@ -36,6 +36,7 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
     { key: "collector", title: `收藏者`, component: <Collector /> }
   ];
   const { activeKey, setActiveKey, activeColor } = useTabActive(tabPaneList.map(item => item.key));
+  const activePath = location.pathname.split("/").slice(-1)[0];
 
   useEffect(() => {
     const fetchData = async (id: string) => {
@@ -53,10 +54,8 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
   }, [id]);
 
   useEffect(() => {
-    const { pathname } = location;
-    const activePath = pathname.split("/").slice(-1)[0];
     setActiveKey(activePath);
-  }, [location, setActiveKey]);
+  }, [activePath, setActiveKey]);
 
   /**
    * @description 选项卡切换监听
