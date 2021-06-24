@@ -3,7 +3,7 @@ import { Space, Row, Col, Divider, Pagination, Card } from "antd";
 import { DownOutlined, LikeOutlined, MessageOutlined, ShareAltOutlined, UpOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { Text } from "@/components/text";
-import type { PlaylistDataType, CommentsDataType } from "@/typings";
+import type { DetailStateType } from "@/typings";
 import { getPlaylistComments } from "../api";
 import Reply from "../components/Reply";
 
@@ -21,10 +21,24 @@ const IconText = ({ icon, text }: IconTextType) => (
   </Text>
 );
 
-const Comments: React.FC<PlaylistDataType> = props => {
+export interface CommentsStateType {
+  commentId: number;
+  user: {
+    avatarUrl: string;
+    nickname: string;
+  };
+  content: string;
+  beReplied: CommentsStateType[];
+  visible: boolean;
+  time?: Date;
+  liked?: boolean;
+  likedCount?: number;
+}
+
+const Comments: React.FC<DetailStateType> = props => {
   const { data } = props;
-  const [commentsData, setCommentsData] = useState<CommentsDataType[]>([]);
-  const [hotCommentsData, setHotCommentsData] = useState<CommentsDataType[]>([]);
+  const [commentsData, setCommentsData] = useState<CommentsStateType[]>([]);
+  const [hotCommentsData, setHotCommentsData] = useState<CommentsStateType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   // 当前页码
@@ -41,8 +55,8 @@ const Comments: React.FC<PlaylistDataType> = props => {
           hotComments,
           total
         }: {
-          comments: CommentsDataType[];
-          hotComments: CommentsDataType[];
+          comments: CommentsStateType[];
+          hotComments: CommentsStateType[];
           total: number;
         } = await getPlaylistComments({ id });
         setCommentsData(comments);

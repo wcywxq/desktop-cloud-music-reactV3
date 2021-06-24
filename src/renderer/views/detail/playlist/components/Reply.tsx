@@ -1,11 +1,11 @@
 import React from "react";
 import { List, Avatar, Spin } from "antd";
 import { Text } from "@/components/text";
-import type { CommentsDataType } from "@/typings";
+import type { CommentsStateType } from "../comments";
 
 interface IProps {
-  dataSource: CommentsDataType[];
-  renderItem: (item: CommentsDataType) => React.ReactNode;
+  dataSource: CommentsStateType[];
+  renderItem: (item: CommentsStateType) => React.ReactNode;
   style?: React.CSSProperties;
 }
 

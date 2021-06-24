@@ -27,46 +27,102 @@ declare interface SongsStruct {
   dt: Date;
 }
 
-// detail
-declare namespace DetailDataType {
-  interface Playlist {
-    id: number;
-    commentCount: number;
-    coverImgUrl: string;
-    playCount: number;
-    name: string;
-    creator: {
-      avatarUrl: string;
-      nickname: string;
-    };
-    createTime: Date;
-    subscribedCount: number;
-    trackIds: { id: number }[]; // trackIds 可用来调用 song/detail 获取详细信息
-  }
+declare interface SingerStruct {
+  id: number;
+  name: string;
 }
-
-export interface PlaylistDataType {
-  data?: DetailDataType.Playlist;
-}
-
-export interface CommentsDataType {
-  commentId: number;
-  user: {
+interface PlaylistBaseStruct {
+  id: number;
+  coverImgUrl: string;
+  playCount: number;
+  name: string;
+  creator: {
     avatarUrl: string;
     nickname: string;
   };
-  content: string;
-  beReplied: CommentsDataType[];
-  visible: boolean;
-  time?: Date;
-  liked?: boolean;
-  likedCount?: number;
+}
+
+declare interface PlaylistStruct extends PlaylistBaseStruct {}
+
+declare interface UserStruct {
+  avatarUrl: string;
+  nickname: string;
+}
+
+declare interface LyricStruct {}
+
+declare interface RadioStruct {}
+
+declare interface VideoStruct {}
+
+// detail
+declare namespace DetailState {
+  interface Playlist extends PlaylistBaseStruct {
+    commentCount: number;
+    createTime: Date;
+    subscribedCount: number;
+    trackIds: { id: number }[];
+  }
+}
+
+export interface DetailStateType {
+  data?: DetailState.Playlist;
 }
 
 // search
-declare namespace SearchDataType {
+declare namespace SearchState {
   interface Single {
     songCount: number;
     songs: SongsStruct[];
   }
+
+  interface Album {
+    albumCount: number;
+    albums: AlbumStruct[];
+  }
+
+  interface Singer {
+    artistCount: number;
+    artists: SingerStruct[];
+  }
+
+  interface Playlist {
+    playlistCount: number;
+    playlists: PlaylistStruct;
+  }
+
+  interface User {
+    userprofileCount: number;
+    userprofiles: UserStruct[];
+  }
+
+  interface Lyric {
+    songCount: number;
+    songs: LyricStruct[];
+  }
+
+  interface Radio {
+    djRadiosCount: number;
+    djRadios: RadioStruct[];
+  }
+
+  interface Video {
+    videoCount: number;
+    videos: VideoStruct[];
+  }
+}
+
+declare type SearchType = "1" | "10" | "100" | "1000" | "1002" | "1004" | "1006" | "1009" | "1014" | "1018";
+
+export interface SearchStateType {
+  result: Partial<
+    SearchState.Single &
+      SearchState.Album &
+      SearchState.Singer &
+      SearchState.Playlist &
+      SearchState.User &
+      SearchState.Lyric &
+      SearchState.Radio &
+      SearchState.Video
+  >;
 }

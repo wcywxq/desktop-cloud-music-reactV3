@@ -16,7 +16,7 @@ import SongList from "./songs";
 import Collector from "./collector";
 import Comments from "./comments";
 import { getPlaylistDetail } from "./api";
-import type { DetailDataType } from "@/typings";
+import type { DetailState } from "@/typings";
 
 const { TabPane } = Tabs;
 
@@ -28,7 +28,7 @@ const Image = styled(Avatar)`
 const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
   const { match, history, location } = props;
   const [loading, setLoading] = useState<boolean>(false);
-  const [dataSet, setDataSet] = useState<DetailDataType.Playlist>();
+  const [dataSet, setDataSet] = useState<DetailState.Playlist>();
   const { id } = qs.parse(location.search) as { id: string };
   const tabPaneList: TabPaneStruct[] = [
     { key: "songs", title: `歌曲列表(${dataSet?.trackIds.length || 0})`, component: <SongList data={dataSet} /> },
@@ -41,7 +41,7 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
     const fetchData = async (id: string) => {
       setLoading(true);
       try {
-        const { playlist }: { playlist: DetailDataType.Playlist } = await getPlaylistDetail({ id });
+        const { playlist }: { playlist: DetailState.Playlist } = await getPlaylistDetail({ id });
         setDataSet(playlist);
       } catch (err) {
         throw new Error(err);

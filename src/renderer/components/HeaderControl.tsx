@@ -29,7 +29,7 @@ const HeaderControl: React.FC<RouteConfigComponentProps> = props => {
   const { history } = props;
 
   const onSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    history.push(`/search?keywords=${(event.target as any).value}`);
+    history.push(`/search?keywords=${(event.target as any).value}&type=1`);
   };
 
   return (

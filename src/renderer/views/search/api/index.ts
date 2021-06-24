@@ -1,11 +1,10 @@
 // cloudsearch
 import { request } from "@/utils";
-
-type SearchType = 1 | 10 | 100 | 1000 | 1002 | 1004 | 1006 | 1009 | 1014 | 1018;
+import type { SearchType } from "@/typings";
 
 export interface SearchParams {
   keywords: string;
-  type?: SearchType;
+  type: SearchType;
   limit?: number;
   offset?: number;
 }

@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { HeartOutlined, DownloadOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import { Text } from "@/components/text";
-import type { PlaylistDataType, AlbumStruct, AuthorStruct, SongsStruct } from "@/typings";
+import type { DetailStateType, AlbumStruct, AuthorStruct, SongsStruct } from "@/typings";
 import { getSongDetail } from "../api";
 
 const columns: ColumnsType<SongsStruct> = [
@@ -64,7 +64,7 @@ const columns: ColumnsType<SongsStruct> = [
   }
 ];
 
-const Songs: React.FC<PlaylistDataType> = props => {
+const Songs: React.FC<DetailStateType> = props => {
   const { data } = props;
   const [listData, setListData] = useState<SongsStruct[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
