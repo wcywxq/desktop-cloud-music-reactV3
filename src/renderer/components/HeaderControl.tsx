@@ -34,8 +34,8 @@ const HeaderControl: React.FC<RouteConfigComponentProps> = props => {
 
   return (
     <HeaderControlContainer>
-      <LeftOutlined />
-      <RightOutlined />
+      <LeftOutlined onClick={() => history.go(-1)} />
+      <RightOutlined onClick={() => history.go(1)} />
       <RedoOutlined />
       <div style={{ flex: 1 }}>
         <SearchInput width={350} onPressEnter={onSearch} />

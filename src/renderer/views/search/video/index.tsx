@@ -1,21 +1,14 @@
-import React from "react";
-import { SearchState } from "@/typings";
+import React, { memo } from "react";
+import { SearchStateType } from "@/typings";
 
 interface IProps {
-  state?: Partial<
-    SearchState.Single &
-      SearchState.Album &
-      SearchState.Singer &
-      SearchState.Playlist &
-      SearchState.User &
-      SearchState.Lyric &
-      SearchState.Radio &
-      SearchState.Video
-  >;
+  loading?: boolean;
+  children?: React.ReactNode;
+  state?: SearchStateType;
 }
 
 const Video: React.FC<IProps> = props => {
-  const { state } = props;
+  const { state, loading } = props;
 
   return (
     <pre>
@@ -24,4 +17,6 @@ const Video: React.FC<IProps> = props => {
   );
 };
 
-export default Video;
+export default memo(Video, (prevProps, nextProps) => {
+  return prevProps.state === nextProps.state && prevProps.loading === nextProps.loading;
+});

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Avatar, Button, Space, Divider, Skeleton } from "antd";
 import { StarOutlined } from "@ant-design/icons";
 import { RouteConfigComponentProps } from "react-router-config";
@@ -16,7 +16,7 @@ import SongList from "./songs";
 import Collector from "./collector";
 import Comments from "./comments";
 import { getPlaylistDetail } from "./api";
-import type { DetailState } from "@/typings";
+import type { DetailStateType } from "@/typings";
 
 const { TabPane } = Tabs;
 
@@ -28,12 +28,12 @@ const Image = styled(Avatar)`
 const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
   const { match, history, location } = props;
   const [loading, setLoading] = useState<boolean>(false);
-  const [dataSet, setDataSet] = useState<DetailState.Playlist>();
+  const [dataSet, setDataSet] = useState<DetailStateType>();
   const { id } = qs.parse(location.search) as { id: string };
   const tabPaneList: TabPaneStruct[] = [
-    { key: "songs", title: `歌曲列表(${dataSet?.trackIds.length || 0})`, component: <SongList data={dataSet} /> },
-    { key: "comments", title: `评论(${dataSet?.commentCount || 0})`, component: <Comments data={dataSet} /> },
-    { key: "collector", title: `收藏者`, component: <Collector /> }
+    { key: "songs", title: `歌曲列表(${dataSet?.trackIds?.length || 0})`, component: () => <SongList /> },
+    { key: "comments", title: `评论(${dataSet?.commentCount || 0})`, component: () => <Comments /> },
+    { key: "collector", title: `收藏者`, component: () => <Collector /> }
   ];
   const { activeKey, setActiveKey, activeColor } = useTabActive(tabPaneList.map(item => item.key));
   const activePath = location.pathname.split("/").slice(-1)[0];
@@ -42,7 +42,7 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
     const fetchData = async (id: string) => {
       setLoading(true);
       try {
-        const { playlist }: { playlist: DetailState.Playlist } = await getPlaylistDetail({ id });
+        const { playlist }: { playlist: DetailStateType } = await getPlaylistDetail({ id });
         setDataSet(playlist);
       } catch (err) {
         throw new Error(err);
@@ -119,7 +119,16 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
                 {item.title}
               </Text>
             }>
-            {item.component}
+            {React.createElement<
+              Partial<{
+                loading: boolean;
+                state: DetailStateType;
+                children: React.ReactNode;
+              }>
+            >(item.component, {
+              state: dataSet,
+              loading
+            })}
           </TabPane>
         ))}
       </Tabs>

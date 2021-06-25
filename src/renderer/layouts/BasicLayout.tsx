@@ -38,7 +38,7 @@ const BasicLayoutHeader = styled(Header)`
   right: 0;
   width: calc(100% - 200px);
   background-color: #ffffff !important;
-  z-index: 1000;
+  z-index: 999;
 `;
 
 const BasicLayoutContent = styled(Content)`
@@ -60,7 +60,7 @@ const BasicLayoutFooter = styled(Footer)`
   padding: 0 20px;
   background-color: #f5f5f5 !important;
   box-shadow: 0 3px 6px -4px rgb(0 0 0 / 12%), 0 6px 16px 0 rgb(0 0 0 / 8%), 0 9px 28px 8px rgb(0 0 0 / 5%);
-  z-index: 1000;
+  z-index: 1001;
 `;
 
 const SiderMenuItem = styled.div`

@@ -126,8 +126,8 @@ const Discovery: React.FC = () => {
       <AlbumTitle>编辑精选</AlbumTitle>
       <AlbumCard>
         {recommendPlayList.map(item => (
-          <Space key={item.id} direction="vertical" size="small">
-            <Link to={`/detail/playlist/songs?id=${item.id}`}>
+          <Link key={item.id} to={`/detail/playlist/songs?id=${item.id}`}>
+            <Space direction="vertical" size="small">
               <AlbumItem>
                 <img src={item.picUrl} alt="" />
                 <PlayCount value={item.playCount} />
@@ -135,18 +135,14 @@ const Discovery: React.FC = () => {
                   <PlayCircleFilled />
                 </AlbumMask>
               </AlbumItem>
-            </Link>
-            <Link to={`/detail/playlist/songs?id=${item.id}`}>
               <Text strong ellipsis title={item.name}>
                 {item.name}
               </Text>
-            </Link>
-            <Link to={`/detail/playlist/songs?id=${item.id}`}>
               <Text color="#8c8c8c" ellipsis size={13} title={item.copywriter}>
                 {item.copywriter}
               </Text>
-            </Link>
-          </Space>
+            </Space>
+          </Link>
         ))}
       </AlbumCard>
     </>

@@ -9,6 +9,19 @@ declare module "*.bmp";
 declare module "*.tif";
 declare module "*.scss";
 
+// loading
+declare interface Loading {
+  loading: boolean;
+}
+
+// 分页
+declare interface PaginationOptionsType {
+  pageNum: number;
+  pageSize: number;
+  handleCurrentChange: (pageNum: number, pageSize?: number | undefined) => void;
+  handleSizeChange: (pageNum: number, pageSize: number) => void;
+}
+
 declare interface AuthorStruct {
   id: number;
   name: string;
@@ -42,7 +55,9 @@ interface PlaylistBaseStruct {
   };
 }
 
-declare interface PlaylistStruct extends PlaylistBaseStruct {}
+declare interface PlaylistStruct extends PlaylistBaseStruct {
+  trackCount: number;
+}
 
 declare interface UserStruct {
   avatarUrl: string;
@@ -65,64 +80,60 @@ declare namespace DetailState {
   }
 }
 
-export interface DetailStateType {
-  data?: DetailState.Playlist;
-}
+export type DetailStateType = Partial<DetailState.Playlist>;
 
 // search
 declare namespace SearchState {
   interface Single {
     songCount: number;
-    songs: SongsStruct[];
+    songs: Array<SongsStruct & Loading>;
   }
 
   interface Album {
     albumCount: number;
-    albums: AlbumStruct[];
+    albums: Array<AlbumStruct & Loading>;
   }
 
   interface Singer {
     artistCount: number;
-    artists: SingerStruct[];
+    artists: Array<SingerStruct & Loading>;
   }
 
   interface Playlist {
     playlistCount: number;
-    playlists: PlaylistStruct[];
+    playlists: Array<PlaylistStruct & Loading>;
   }
 
   interface User {
     userprofileCount: number;
-    userprofiles: UserStruct[];
+    userprofiles: Array<UserStruct & Loading>;
   }
 
   interface Lyric {
     songCount: number;
-    songs: LyricStruct[];
+    songs: Array<LyricStruct & Loading>;
   }
 
   interface Radio {
     djRadiosCount: number;
-    djRadios: RadioStruct[];
+    djRadios: Array<RadioStruct & Loading>;
   }
 
   interface Video {
     videoCount: number;
-    videos: VideoStruct[];
+    videos: Array<VideoStruct & Loading>;
   }
 }
 
 declare type SearchType = "1" | "10" | "100" | "1000" | "1002" | "1004" | "1006" | "1009" | "1014" | "1018";
 
-export interface SearchStateType {
-  result: Partial<
-    SearchState.Single &
-      SearchState.Album &
-      SearchState.Singer &
-      SearchState.Playlist &
-      SearchState.User &
-      SearchState.Lyric &
-      SearchState.Radio &
-      SearchState.Video
-  >;
-}
+export type SearchStateType = Partial<
+  SearchState.Single &
+    SearchState.Album &
+    SearchState.Singer &
+    SearchState.Playlist &
+    SearchState.User &
+    SearchState.Lyric &
+    SearchState.Radio &
+    SearchState.Video
+>;

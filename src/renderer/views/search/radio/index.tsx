@@ -1,17 +1,10 @@
-import React from "react";
-import { SearchState } from "@/typings";
+import React, { memo } from "react";
+import { SearchStateType } from "@/typings";
 
 interface IProps {
-  state?: Partial<
-    SearchState.Single &
-      SearchState.Album &
-      SearchState.Singer &
-      SearchState.Playlist &
-      SearchState.User &
-      SearchState.Lyric &
-      SearchState.Radio &
-      SearchState.Video
-  >;
+  loading?: boolean;
+  children?: React.ReactNode;
+  state?: SearchStateType;
 }
 
 const Radio: React.FC<IProps> = props => {
@@ -24,4 +17,9 @@ const Radio: React.FC<IProps> = props => {
   );
 };
 
-export default Radio;
+export default memo(Radio, (prevProps, nextProps) => {
+  return (
+    prevProps.state === nextProps.state &&
+    prevProps.loading === nextProps.loading
+  )
+});

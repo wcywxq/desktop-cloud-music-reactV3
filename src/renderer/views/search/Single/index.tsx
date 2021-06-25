@@ -1,23 +1,15 @@
-import React from "react";
+import React, { memo } from "react";
 import { Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { HeartOutlined, DownloadOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import type { SearchState, SongsStruct, AuthorStruct, AlbumStruct } from "@/typings";
+import type { SearchStateType, SongsStruct, AuthorStruct, AlbumStruct } from "@/typings";
 import { Text } from "@/components/text";
 
 interface IProps {
   loading?: boolean;
-  state?: Partial<
-    SearchState.Single &
-      SearchState.Album &
-      SearchState.Singer &
-      SearchState.Playlist &
-      SearchState.User &
-      SearchState.Lyric &
-      SearchState.Radio &
-      SearchState.Video
-  >;
+  children?: React.ReactNode;
+  state?: SearchStateType;
 }
 
 const columns: ColumnsType<SongsStruct> = [
@@ -79,7 +71,7 @@ const columns: ColumnsType<SongsStruct> = [
 const Single: React.FC<IProps> = props => {
   const { state, loading } = props;
 
-  console.log(state);
+  console.log("渲染~~~");
 
   return (
     <Table<SongsStruct>
@@ -92,4 +84,6 @@ const Single: React.FC<IProps> = props => {
   );
 };
 
-export default Single;
+export default memo(Single, (prevProps, nextProps) => {
+  return prevProps.state === nextProps.state && prevProps.loading === nextProps.loading;
+});

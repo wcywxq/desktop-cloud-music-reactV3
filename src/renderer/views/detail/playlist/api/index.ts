@@ -11,11 +11,12 @@ export const getPlaylistDetail = (params: { id: string }) => request("/playlist/
  * @param params
  * @returns
  */
-export const getSongDetail = (params: { ids: string }) => request("/song/detail", { params });
+export const getSongDetail = (params: { ids: string; }) => request("/song/detail", { params });
 
 /**
  * @description 获取歌单评论
  * @param params
  * @returns
  */
-export const getPlaylistComments = (params: { id: string }) => request("/comment/playlist", { params });
+export const getPlaylistComments = (params: { id: string; limit: number; offset: number }) =>
+  request("/comment/playlist", { params });

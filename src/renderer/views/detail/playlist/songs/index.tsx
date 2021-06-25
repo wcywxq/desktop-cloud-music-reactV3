@@ -63,8 +63,14 @@ const columns: ColumnsType<SongsStruct> = [
   }
 ];
 
-const Songs: React.FC<DetailStateType> = props => {
-  const { data } = props;
+interface IProps {
+  loading?: boolean;
+  state?: DetailStateType;
+  children?: React.ReactNode;
+}
+
+const Songs: React.FC<IProps> = props => {
+  const { state } = props;
   const [listData, setListData] = useState<SongsStruct[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -80,12 +86,14 @@ const Songs: React.FC<DetailStateType> = props => {
         setLoading(false);
       }
     };
-    if (data) {
-      const { trackIds } = data;
-      const ids = trackIds.map(item => item.id).join();
-      fetchData(ids);
+    if (state) {
+      const { trackIds } = state;
+      const ids = trackIds?.map(item => item.id).join();
+      if (ids) {
+        fetchData(ids);
+      }
     }
-  }, [data]);
+  }, [state]);
 
   return (
     <Table<SongsStruct>
@@ -94,6 +102,7 @@ const Songs: React.FC<DetailStateType> = props => {
       loading={loading}
       columns={columns}
       dataSource={listData}
+      pagination={{ size: "small", pageSizeOptions: ["50"], showSizeChanger: false, showQuickJumper: true }}
     />
   );
 };

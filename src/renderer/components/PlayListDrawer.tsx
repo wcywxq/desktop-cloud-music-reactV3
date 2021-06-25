@@ -11,7 +11,7 @@ const PlayListDrawerContainer = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 999;
+  z-index: 1000;
   width: ${(props: { width: number | string }) => (typeof props.width === "string" ? props.width : `${props.width}px`)};
   height: 100%;
   overflow: auto;

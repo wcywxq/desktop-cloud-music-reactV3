@@ -1,17 +1,10 @@
-import React from "react";
-import { SearchState } from "@/typings";
+import React, { memo } from "react";
+import { SearchStateType } from "@/typings";
 
 interface IProps {
-  state?: Partial<
-    SearchState.Single &
-      SearchState.Album &
-      SearchState.Singer &
-      SearchState.Playlist &
-      SearchState.User &
-      SearchState.Lyric &
-      SearchState.Radio &
-      SearchState.Video
-  >;
+  loading?: boolean;
+  children?: React.ReactNode;
+  state?: SearchStateType;
 }
 
 const User: React.FC<IProps> = props => {
@@ -24,4 +17,6 @@ const User: React.FC<IProps> = props => {
   );
 };
 
-export default User;
+export default memo(User, (prevProps, nextProps) => {
+  return prevProps.state === nextProps.state && prevProps.loading === nextProps.loading;
+});

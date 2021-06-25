@@ -4,7 +4,7 @@ import qs from "query-string";
 import { useTabActive } from "@/hooks";
 import { Tabs, TabPaneStruct } from "@/components/tabs";
 import { Text } from "@/components/text";
-import type { SearchState, SearchStateType, SearchType } from "@/typings";
+import type { PaginationOptionsType, SearchStateType, SearchType } from "@/typings";
 import { SEARCH_TYPE_MAP } from "@/utils";
 import { searchWithKeywords } from "./api";
 import Single from "./single";
@@ -21,66 +21,52 @@ const { TabPane } = Tabs;
 const Search: React.FC<RouteConfigComponentProps> = props => {
   const { match, location, history } = props;
   const { keywords } = qs.parse(location.search) as unknown as { keywords: string };
-  const [dataSet, setDataSet] =
-    useState<
-      Partial<
-        SearchState.Single &
-          SearchState.Album &
-          SearchState.Singer &
-          SearchState.Playlist &
-          SearchState.User &
-          SearchState.Lyric &
-          SearchState.Radio &
-          SearchState.Video
-      >
-    >();
+  const [dataSet, setDataSet] = useState<SearchStateType>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [pageNum, setPageNum] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(50);
   const activePath = location.pathname.split("/").slice(-1)[0];
 
   const tabPaneList: TabPaneStruct[] = [
     {
       key: "single",
       title: "单曲",
-      component: (
-        <Single state={dataSet} loading={loading}>
-          单曲
-        </Single>
-      )
+      component: () => <Single>单曲</Single>
     },
     {
       key: "singer",
       title: "歌手",
-      component: <Singer state={dataSet}>歌手</Singer>
+      component: () => <Singer>歌手</Singer>
     },
     {
       key: "album",
       title: "专辑",
-      component: <Album state={dataSet}>专辑</Album>
+      component: () => <Album>专辑</Album>
     },
     {
       key: "video",
       title: "视频",
-      component: <Video state={dataSet}>视频</Video>
+      component: () => <Video>视频</Video>
     },
     {
       key: "playlist",
       title: "歌单",
-      component: <Playlist state={dataSet}>歌单</Playlist>
+      component: () => <Playlist>歌单</Playlist>
     },
     {
       key: "lyric",
       title: "歌词",
-      component: <Lyric state={dataSet}>歌词</Lyric>
+      component: () => <Lyric>歌词</Lyric>
     },
     {
       key: "radio",
       title: "主播电台",
-      component: <Radio state={dataSet}>主播电台</Radio>
+      component: () => <Radio>主播电台</Radio>
     },
     {
       key: "user",
       title: "用户",
-      component: <User state={dataSet}>用户</User>
+      component: () => <User>用户</User>
     }
   ];
 
@@ -90,7 +76,7 @@ const Search: React.FC<RouteConfigComponentProps> = props => {
     const fetchData = async (keywords: string, type: SearchType) => {
       setLoading(true);
       try {
-        const { result }: SearchStateType = await searchWithKeywords({ keywords, type });
+        const { result }: { result: SearchStateType } = await searchWithKeywords({ keywords, type });
         setDataSet(result);
       } catch (err) {
         throw new Error(err);
@@ -114,6 +100,26 @@ const Search: React.FC<RouteConfigComponentProps> = props => {
     history.push(`${match.url}/${currentActiveKey}?keywords=${keywords}`);
   };
 
+  /**
+   * @description 切换页码
+   * @param pageNum
+   * @param pageSize
+   */
+  const handleCurrentChange = (pageNum: number, pageSize?: number) => {
+    setPageNum(pageNum);
+    pageSize !== undefined && setPageSize(pageSize);
+  };
+
+  /**
+   * @description 切换每页条目
+   * @param pageNum
+   * @param pageSize
+   */
+  const handleSizeChange = (pageNum: number, pageSize: number) => {
+    setPageNum(pageNum);
+    setPageSize(pageSize);
+  };
+
   return (
     <Tabs activeKey={activeKey} onChange={onTabsChange}>
       {tabPaneList.map(item => (
@@ -124,7 +130,21 @@ const Search: React.FC<RouteConfigComponentProps> = props => {
               {item.title}
             </Text>
           }>
-          {item.component}
+          {React.createElement<
+            PaginationOptionsType &
+              Partial<{
+                loading: boolean;
+                state: SearchStateType;
+                children: React.ReactNode;
+              }>
+          >(item.component, {
+            state: dataSet,
+            loading,
+            pageNum,
+            pageSize,
+            handleCurrentChange,
+            handleSizeChange
+          })}
         </TabPane>
       ))}
     </Tabs>
