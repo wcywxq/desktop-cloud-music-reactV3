@@ -4,7 +4,7 @@ import qs from "query-string";
 import { useTabActive } from "@/hooks";
 import { Tabs, TabPaneStruct } from "@/components/tabs";
 import { Text } from "@/components/text";
-import type { PaginationOptionsType, SearchStateType, SearchType } from "@/typings";
+import type { SearchStateType, SearchType, SearchRouteType } from "@/typings";
 import { SEARCH_TYPE_MAP } from "@/utils";
 import { searchWithKeywords } from "./api";
 import Single from "./single";
@@ -27,46 +27,46 @@ const Search: React.FC<RouteConfigComponentProps> = props => {
   const [pageSize, setPageSize] = useState<number>(50);
   const activePath = location.pathname.split("/").slice(-1)[0];
 
-  const tabPaneList: TabPaneStruct[] = [
+  const tabPaneList: TabPaneStruct<SearchRouteType>[] = [
     {
       key: "single",
       title: "单曲",
-      component: () => <Single>单曲</Single>
+      component: (props: SearchRouteType) => <Single {...props}>单曲</Single>
     },
     {
       key: "singer",
       title: "歌手",
-      component: () => <Singer>歌手</Singer>
+      component: (props: SearchRouteType) => <Singer {...props}>歌手</Singer>
     },
     {
       key: "album",
       title: "专辑",
-      component: () => <Album>专辑</Album>
+      component: (props: SearchRouteType) => <Album {...props}>专辑</Album>
     },
     {
       key: "video",
       title: "视频",
-      component: () => <Video>视频</Video>
+      component: (props: SearchRouteType) => <Video {...props}>视频</Video>
     },
     {
       key: "playlist",
       title: "歌单",
-      component: () => <Playlist>歌单</Playlist>
+      component: (props: SearchRouteType) => <Playlist {...props}>歌单</Playlist>
     },
     {
       key: "lyric",
       title: "歌词",
-      component: () => <Lyric>歌词</Lyric>
+      component: (props: SearchRouteType) => <Lyric {...props}>歌词</Lyric>
     },
     {
       key: "radio",
       title: "主播电台",
-      component: () => <Radio>主播电台</Radio>
+      component: (props: SearchRouteType) => <Radio {...props}>主播电台</Radio>
     },
     {
       key: "user",
       title: "用户",
-      component: () => <User>用户</User>
+      component: (props: SearchRouteType) => <User {...props}>用户</User>
     }
   ];
 
@@ -130,14 +130,7 @@ const Search: React.FC<RouteConfigComponentProps> = props => {
               {item.title}
             </Text>
           }>
-          {React.createElement<
-            PaginationOptionsType &
-              Partial<{
-                loading: boolean;
-                state: SearchStateType;
-                children: React.ReactNode;
-              }>
-          >(item.component, {
+          {React.createElement<SearchRouteType>(item.component, {
             state: dataSet,
             loading,
             pageNum,

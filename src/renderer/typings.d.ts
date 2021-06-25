@@ -1,3 +1,5 @@
+import React from "react";
+
 declare module "*.png";
 declare module "*.gif";
 declare module "*.jpg";
@@ -44,6 +46,7 @@ declare interface SingerStruct {
   id: number;
   name: string;
 }
+
 interface PlaylistBaseStruct {
   id: number;
   coverImgUrl: string;
@@ -80,7 +83,13 @@ declare namespace DetailState {
   }
 }
 
-export type DetailStateType = Partial<DetailState.Playlist>;
+declare type DetailStateType = Partial<DetailState.Playlist>;
+
+declare type DetailRouteType = Partial<{
+  loading: boolean;
+  state: DetailStateType;
+  children: React.ReactNode;
+}>;
 
 // search
 declare namespace SearchState {
@@ -127,7 +136,7 @@ declare namespace SearchState {
 
 declare type SearchType = "1" | "10" | "100" | "1000" | "1002" | "1004" | "1006" | "1009" | "1014" | "1018";
 
-export type SearchStateType = Partial<
+declare type SearchStateType = Partial<
   SearchState.Single &
     SearchState.Album &
     SearchState.Singer &
@@ -137,3 +146,6 @@ export type SearchStateType = Partial<
     SearchState.Radio &
     SearchState.Video
 >;
+
+declare type SearchRouteType = PaginationOptionsType &
+  Partial<{ loading: boolean; state: SearchStateType; children: React.ReactNode }>;

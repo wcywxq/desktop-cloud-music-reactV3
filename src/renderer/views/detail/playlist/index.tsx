@@ -16,7 +16,7 @@ import SongList from "./songs";
 import Collector from "./collector";
 import Comments from "./comments";
 import { getPlaylistDetail } from "./api";
-import type { DetailStateType } from "@/typings";
+import type { DetailStateType, DetailRouteType } from "@/typings";
 
 const { TabPane } = Tabs;
 
@@ -30,10 +30,18 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
   const [loading, setLoading] = useState<boolean>(false);
   const [dataSet, setDataSet] = useState<DetailStateType>();
   const { id } = qs.parse(location.search) as { id: string };
-  const tabPaneList: TabPaneStruct[] = [
-    { key: "songs", title: `歌曲列表(${dataSet?.trackIds?.length || 0})`, component: () => <SongList /> },
-    { key: "comments", title: `评论(${dataSet?.commentCount || 0})`, component: () => <Comments /> },
-    { key: "collector", title: `收藏者`, component: () => <Collector /> }
+  const tabPaneList: TabPaneStruct<DetailRouteType>[] = [
+    {
+      key: "songs",
+      title: `歌曲列表(${dataSet?.trackIds?.length || 0})`,
+      component: (props: DetailRouteType) => <SongList {...props} />
+    },
+    {
+      key: "comments",
+      title: `评论(${dataSet?.commentCount || 0})`,
+      component: (props: DetailRouteType) => <Comments {...props} />
+    },
+    { key: "collector", title: `收藏者`, component: (props: DetailRouteType) => <Collector {...props} /> }
   ];
   const { activeKey, setActiveKey, activeColor } = useTabActive(tabPaneList.map(item => item.key));
   const activePath = location.pathname.split("/").slice(-1)[0];
@@ -119,13 +127,7 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
                 {item.title}
               </Text>
             }>
-            {React.createElement<
-              Partial<{
-                loading: boolean;
-                state: DetailStateType;
-                children: React.ReactNode;
-              }>
-            >(item.component, {
+            {React.createElement<DetailRouteType>(item.component, {
               state: dataSet,
               loading
             })}

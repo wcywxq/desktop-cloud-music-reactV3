@@ -71,6 +71,8 @@ const columns: ColumnsType<SongsStruct> = [
 const Single: React.FC<IProps> = props => {
   const { state, loading } = props;
 
+  console.log(props);
+
   console.log("渲染~~~");
 
   return (

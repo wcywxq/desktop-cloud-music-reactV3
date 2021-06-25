@@ -1,7 +1,7 @@
 export { default as Tabs } from "./Tabs";
 
-export interface TabPaneStruct {
+export interface TabPaneStruct<T> {
   key: string;
   title: string;
-  component: React.FC;
+  component: React.FC<T>;
 }
