@@ -62,11 +62,7 @@ const columns: ColumnsType<SongsStruct> = [
   }
 ];
 
-const Single: React.FC<SearchRouteType> = props => {
-  const { state, loading } = props;
-
-  console.log(props);
-
+const Single: React.FC<SearchRouteType> = ({ state, loading }) => {
   console.log("渲染~~~");
 
   return (

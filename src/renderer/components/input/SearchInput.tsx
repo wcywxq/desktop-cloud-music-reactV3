@@ -26,8 +26,7 @@ const Search = styled(Input)`
   }
 `;
 
-const SearchInput: React.FC<ISearchInput> = props => {
-  const { placeholder, onPressEnter, width } = props;
+const SearchInput: React.FC<ISearchInput> = ({ placeholder, onPressEnter, width }) => {
   return (
     <Search
       style={{ width: `${width}px` }}

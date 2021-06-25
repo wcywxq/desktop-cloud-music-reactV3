@@ -20,9 +20,7 @@ const PlayListDrawerContainer = styled.div`
   transition: width 0.5s ease-in-out;
 `;
 
-const PlayListDrawer: React.FC<IProps> = props => {
-  const { visible, width, children } = props;
-
+const PlayListDrawer: React.FC<IProps> = ({ visible, width, children }) => {
   const currentWidth = useMemo(() => {
     if (!visible) {
       return 0;

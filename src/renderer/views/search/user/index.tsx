@@ -1,9 +1,7 @@
 import React, { memo } from "react";
 import { SearchRouteType } from "@/typings";
 
-const User: React.FC<SearchRouteType> = props => {
-  const { state } = props;
-
+const User: React.FC<SearchRouteType> = ({ state }) => {
   return (
     <pre>
       <code>{JSON.stringify(state, null, 2)}</code>

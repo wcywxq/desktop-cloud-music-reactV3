@@ -1,25 +1,17 @@
-import React, { memo, useState } from "react";
+import React, { memo } from "react";
 import { Avatar, List, Skeleton, Row, Col, Space } from "antd";
 import { Link } from "react-router-dom";
 import { SearchRouteType } from "@/typings";
 import { Text } from "@/components/text";
 
-const Playlist: React.FC<SearchRouteType> = props => {
-  const { state, loading } = props;
-
-  const [pageNum, setPageNum] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(50);
-
-  const handleCurrentChange = (pageNum: number, pageSize?: number) => {
-    setPageNum(pageNum);
-    pageSize !== undefined && setPageSize(pageSize);
-  };
-
-  const handleSizeChange = (pageNum: number, pageSize: number) => {
-    setPageNum(pageNum);
-    setPageSize(pageSize);
-  };
-
+const Playlist: React.FC<SearchRouteType> = ({
+  state,
+  loading,
+  pageNum,
+  pageSize,
+  handleCurrentChange,
+  handleSizeChange
+}) => {
   return (
     <List
       size="small"
@@ -67,5 +59,10 @@ const Playlist: React.FC<SearchRouteType> = props => {
 };
 
 export default memo(Playlist, (prevProps, nextProps) => {
-  return prevProps.state === nextProps.state && prevProps.loading === nextProps.loading;
+  return (
+    prevProps.state === nextProps.state &&
+    prevProps.loading === nextProps.loading &&
+    prevProps.pageNum === nextProps.pageNum &&
+    prevProps.pageSize === nextProps.pageSize
+  );
 });

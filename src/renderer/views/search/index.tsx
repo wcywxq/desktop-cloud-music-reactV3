@@ -18,8 +18,7 @@ import User from "./user";
 
 const { TabPane } = Tabs;
 
-const Search: React.FC<RouteConfigComponentProps> = props => {
-  const { match, location, history } = props;
+const Search: React.FC<RouteConfigComponentProps> = ({ match, location, history }) => {
   const { keywords } = qs.parse(location.search) as unknown as { keywords: string };
   const [dataSet, setDataSet] = useState<SearchStateType>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -76,7 +75,12 @@ const Search: React.FC<RouteConfigComponentProps> = props => {
     const fetchData = async (keywords: string, type: SearchType) => {
       setLoading(true);
       try {
-        const { result }: { result: SearchStateType } = await searchWithKeywords({ keywords, type });
+        const { result }: { result: SearchStateType } = await searchWithKeywords({
+          keywords,
+          type,
+          limit: pageSize,
+          offset: (pageNum - 1) * pageSize
+        });
         setDataSet(result);
       } catch (err) {
         throw new Error(err);
@@ -84,8 +88,9 @@ const Search: React.FC<RouteConfigComponentProps> = props => {
         setLoading(false);
       }
     };
+
     fetchData(keywords, SEARCH_TYPE_MAP[activePath]);
-  }, [activePath, keywords]);
+  }, [activePath, keywords, pageNum, pageSize]);
 
   useEffect(() => {
     setActiveKey(activePath);
@@ -97,6 +102,9 @@ const Search: React.FC<RouteConfigComponentProps> = props => {
    */
   const onTabsChange = (currentActiveKey: string) => {
     setActiveKey(currentActiveKey);
+    //  重置分页参数
+    setPageNum(1);
+    setPageSize(50);
     history.push(`${match.url}/${currentActiveKey}?keywords=${keywords}`);
   };
 

@@ -25,8 +25,7 @@ const Image = styled(Avatar)`
   border-radius: 10px;
 `;
 
-const PlaylistDetail: React.FC<RouteConfigComponentProps> = props => {
-  const { match, history, location } = props;
+const PlaylistDetail: React.FC<RouteConfigComponentProps> = ({ match, history, location }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [dataSet, setDataSet] = useState<DetailStateType>();
   const { id } = qs.parse(location.search) as { id: string };

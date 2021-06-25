@@ -21,8 +21,7 @@ interface CommentsStateType {
   likedCount?: number;
 }
 
-const Comments: React.FC<DetailRouteType> = props => {
-  const { state } = props;
+const Comments: React.FC<DetailRouteType> = ({ state }) => {
   const [commentsData, setCommentsData] = useState<CommentsStateType[]>([]);
   const [hotCommentsData, setHotCommentsData] = useState<CommentsStateType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);

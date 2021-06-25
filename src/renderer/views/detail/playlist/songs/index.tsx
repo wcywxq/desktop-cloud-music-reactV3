@@ -63,8 +63,7 @@ const columns: ColumnsType<SongsStruct> = [
   }
 ];
 
-const Songs: React.FC<DetailRouteType> = props => {
-  const { state } = props;
+const Songs: React.FC<DetailRouteType> = ({ state }) => {
   const [listData, setListData] = useState<SongsStruct[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 

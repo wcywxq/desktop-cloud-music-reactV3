@@ -25,9 +25,7 @@ const HeaderControlContainer = styled.div`
   }
 `;
 
-const HeaderControl: React.FC<RouteConfigComponentProps> = props => {
-  const { history } = props;
-
+const HeaderControl: React.FC<RouteConfigComponentProps> = ({ history }) => {
   const onSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
     history.push(`/search/single?keywords=${(event.target as any).value}`);
   };
