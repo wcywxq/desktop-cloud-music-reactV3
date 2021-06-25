@@ -1,13 +1,7 @@
 import React, { memo } from "react";
-import { SearchStateType } from "@/typings";
+import { SearchRouteType } from "@/typings";
 
-interface IProps {
-  loading?: boolean;
-  children?: React.ReactNode;
-  state?: SearchStateType;
-}
-
-const Radio: React.FC<IProps> = props => {
+const Radio: React.FC<SearchRouteType> = props => {
   const { state } = props;
 
   return (
@@ -18,8 +12,5 @@ const Radio: React.FC<IProps> = props => {
 };
 
 export default memo(Radio, (prevProps, nextProps) => {
-  return (
-    prevProps.state === nextProps.state &&
-    prevProps.loading === nextProps.loading
-  )
+  return prevProps.state === nextProps.state && prevProps.loading === nextProps.loading;
 });

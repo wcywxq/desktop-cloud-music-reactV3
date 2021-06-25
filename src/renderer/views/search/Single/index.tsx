@@ -3,14 +3,8 @@ import { Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { HeartOutlined, DownloadOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import type { SearchStateType, SongsStruct, AuthorStruct, AlbumStruct } from "@/typings";
+import type { SongsStruct, AuthorStruct, AlbumStruct, SearchRouteType } from "@/typings";
 import { Text } from "@/components/text";
-
-interface IProps {
-  loading?: boolean;
-  children?: React.ReactNode;
-  state?: SearchStateType;
-}
 
 const columns: ColumnsType<SongsStruct> = [
   {
@@ -68,7 +62,7 @@ const columns: ColumnsType<SongsStruct> = [
   }
 ];
 
-const Single: React.FC<IProps> = props => {
+const Single: React.FC<SearchRouteType> = props => {
   const { state, loading } = props;
 
   console.log(props);

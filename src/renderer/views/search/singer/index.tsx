@@ -1,13 +1,7 @@
 import React, { memo } from "react";
-import { SearchStateType } from "@/typings";
+import { SearchRouteType } from "@/typings";
 
-interface IProps {
-  loading?: boolean;
-  children?: React.ReactNode;
-  state?: SearchStateType;
-}
-
-const Singer: React.FC<IProps> = props => {
+const Singer: React.FC<SearchRouteType> = props => {
   const { state, loading } = props;
 
   return (

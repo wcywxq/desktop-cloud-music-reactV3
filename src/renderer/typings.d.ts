@@ -147,5 +147,6 @@ declare type SearchStateType = Partial<
     SearchState.Video
 >;
 
-declare type SearchRouteType = PaginationOptionsType &
-  Partial<{ loading: boolean; state: SearchStateType; children: React.ReactNode }>;
+declare type SearchRouteType = Partial<
+  PaginationOptionsType & { loading: boolean; state: SearchStateType; children: React.ReactNode }
+>;

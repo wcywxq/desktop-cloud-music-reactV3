@@ -4,7 +4,7 @@ import { DownOutlined, LikeOutlined, MessageOutlined, ShareAltOutlined, UpOutlin
 import dayjs from "dayjs";
 import { Text } from "@/components/text";
 import { IconText } from "@/components/icon";
-import type { DetailStateType } from "@/typings";
+import type { DetailRouteType } from "@/typings";
 import { getPlaylistComments } from "../api";
 
 interface CommentsStateType {
@@ -21,13 +21,7 @@ interface CommentsStateType {
   likedCount?: number;
 }
 
-interface IProps {
-  loading?: boolean;
-  state?: DetailStateType;
-  children?: React.ReactNode;
-}
-
-const Comments: React.FC<IProps> = props => {
+const Comments: React.FC<DetailRouteType> = props => {
   const { state } = props;
   const [commentsData, setCommentsData] = useState<CommentsStateType[]>([]);
   const [hotCommentsData, setHotCommentsData] = useState<CommentsStateType[]>([]);

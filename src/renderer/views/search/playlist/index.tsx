@@ -1,16 +1,10 @@
 import React, { memo, useState } from "react";
 import { Avatar, List, Skeleton, Row, Col, Space } from "antd";
 import { Link } from "react-router-dom";
-import { SearchStateType } from "@/typings";
+import { SearchRouteType } from "@/typings";
 import { Text } from "@/components/text";
 
-interface IProps {
-  loading?: boolean;
-  children?: React.ReactNode;
-  state?: SearchStateType;
-}
-
-const Playlist: React.FC<IProps> = props => {
+const Playlist: React.FC<SearchRouteType> = props => {
   const { state, loading } = props;
 
   const [pageNum, setPageNum] = useState<number>(1);
