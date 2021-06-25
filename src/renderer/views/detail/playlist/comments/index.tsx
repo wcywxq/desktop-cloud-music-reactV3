@@ -188,18 +188,6 @@ const Comments: React.FC<IProps> = props => {
           </List.Item>
         )}
       />
-      {/* {totalCount > 0 && (
-        <Row justify="center">
-          <Pagination
-            size="small"
-            showQuickJumper
-            showSizeChanger={false}
-            pageSize={20}
-            current={current}
-            total={totalCount}
-          />
-        </Row>
-      )} */}
     </Space>
   );
 };
