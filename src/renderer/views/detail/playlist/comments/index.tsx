@@ -155,10 +155,10 @@ const Comments: React.FC<DetailRouteType> = ({ state }) => {
                                 <List.Item>
                                   <List.Item.Meta
                                     style={{ marginBottom: 0 }}
-                                    avatar={<Avatar src={item.user.avatarUrl} />}
+                                    avatar={<Avatar src={child.user.avatarUrl} />}
                                     title={
                                       <Text strong color="#cc8c4b">
-                                        {item.user.nickname}
+                                        @{child.user.nickname}
                                       </Text>
                                     }
                                     description={

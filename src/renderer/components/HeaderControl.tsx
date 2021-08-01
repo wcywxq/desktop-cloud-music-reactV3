@@ -1,13 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  FullscreenOutlined,
-  LeftOutlined,
-  RedoOutlined,
-  RightOutlined,
-  SettingOutlined,
-  SkinOutlined
-} from "@ant-design/icons";
+import { FullscreenOutlined, LeftOutlined, RedoOutlined, RightOutlined, SettingOutlined, SkinOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import type { RouteConfigComponentProps } from "react-router-config";
 import { SearchInput } from "@/components/input";

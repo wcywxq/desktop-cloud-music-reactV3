@@ -30,6 +30,8 @@ const BasicLayoutContainer = styled(Layout)`
 
 const BasicLayoutSider = styled(Sider)`
   background-color: #f5f5f5 !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
 `;
 
 const BasicLayoutHeader = styled(Header)`
@@ -38,6 +40,7 @@ const BasicLayoutHeader = styled(Header)`
   right: 0;
   width: calc(100% - 200px);
   background-color: #ffffff !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   z-index: 999;
 `;
 

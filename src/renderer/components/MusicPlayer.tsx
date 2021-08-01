@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-	AlignLeftOutlined,
-	CaretRightOutlined,
-	HeartOutlined,
-	PauseOutlined,
-	ShareAltOutlined,
-	StepBackwardOutlined,
-	StepForwardOutlined,
-	SoundOutlined,
-	MenuFoldOutlined,
-	MenuUnfoldOutlined
-} from '@ant-design/icons';
-import styled from 'styled-components';
-import { Slider, Space, Dropdown, Menu, Popover } from 'antd';
-import PlayListDrawer from './PlayListDrawer';
-import { observer, useLocalObservable } from 'mobx-react-lite';
-import store from '@/store';
+  AlignLeftOutlined,
+  CaretRightOutlined,
+  HeartOutlined,
+  PauseOutlined,
+  ShareAltOutlined,
+  StepBackwardOutlined,
+  StepForwardOutlined,
+  SoundOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined
+} from "@ant-design/icons";
+import styled from "styled-components";
+import { Slider, Space, Dropdown, Menu, Popover } from "antd";
+import PlayListDrawer from "./PlayListDrawer";
+import { observer, useLocalObservable } from "mobx-react-lite";
+import store from "@/store";
+import { IconFont } from "./icon";
 
 const MusicPlayerContainer = styled.div`
   display: flex;
@@ -91,7 +92,7 @@ const MusicPlayerMessage = styled.div`
 const MusicPlayerInfoText = styled.span`
   display: inline-block;
   transform: scale(0.9);
-  color: ${(props: { color?: string }) => props.color || '#333'};
+  color: ${(props: { color?: string }) => props.color || "#333"};
   cursor: pointer;
 `;
 
@@ -128,24 +129,31 @@ const MusicPlayerProgress = styled(Slider)`
 `;
 
 const MusicPlayer = observer(() => {
-	const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [volumeStatus, setVolumeStatus] = useState<boolean>(false);
+  const [volumeValue, setVolumeValue] = useState<number | [number, number]>(75);
 
-	const { common } = useLocalObservable(() => store);
+  const { common } = useLocalObservable(() => store);
 
-	return (
+  const onChangeVolumeStatus = () => {
+    // 改变声音状态
+    setVolumeStatus(prevState => !prevState);
+    // 改变声音数值
+    setVolumeValue(volumeStatus ? 75 : 0);
+  };
+
+  return (
     <>
       <MusicPlayerContainer>
         <MusicPlayerControl>
           <MusicPlayerControlPrev />
-          <MusicPlayerControlMain onClick={() => setIsPlaying((prevState) => !prevState)}>
-            {isPlaying ? <CaretRightOutlined /> : <PauseOutlined />}
-          </MusicPlayerControlMain>
+          <MusicPlayerControlMain onClick={() => setIsPlaying(prevState => !prevState)}>{isPlaying ? <CaretRightOutlined /> : <PauseOutlined />}</MusicPlayerControlMain>
           <MusicPlayerControlNext />
         </MusicPlayerControl>
         <MusicPlayerExtra>
-          <HeartOutlined />
-          <ShareAltOutlined />
-          <AlignLeftOutlined />
+          <HeartOutlined title="喜欢" />
+          <IconFont type="icon-send" title="分享" />
+          <IconFont type="icon-loop" title="循环播放" />
         </MusicPlayerExtra>
         <MusicPlayerPanel>
           <MusicPlayerPoster></MusicPlayerPoster>
@@ -161,12 +169,12 @@ const MusicPlayer = observer(() => {
           </MusicPlayerMessage>
         </MusicPlayerPanel>
         <MusicPlayerExtra>
-          <Popover content={<MusicPlayerProgress defaultValue={30} vertical height={150} />} trigger="click">
-            <SoundOutlined />
+          <Popover content={<MusicPlayerProgress value={volumeValue} vertical height={150} onChange={(value: number | [number, number]) => setVolumeValue(value)} />}>
+            <IconFont type={volumeStatus ? "icon-close_volume" : "icon-volume"} title={volumeStatus ? "恢复音量" : "静音"} onClick={() => onChangeVolumeStatus()} />
           </Popover>
           <Dropdown
             placement="topCenter"
-            trigger={['click']}
+            trigger={["click"]}
             overlay={
               <Menu>
                 <Menu.Item key="3.0">3.0x</Menu.Item>
@@ -181,15 +189,11 @@ const MusicPlayer = observer(() => {
             }>
             <MusicPlayerInfoText color="#9b9b9b">倍速</MusicPlayerInfoText>
           </Dropdown>
-          {common.visiblePlayList ? (
-            <MenuFoldOutlined onClick={() => common.onShowPlayList()} />
-          ) : (
-            <MenuUnfoldOutlined onClick={() => common.onShowPlayList()} />
-          )}
+          {common.visiblePlayList ? <MenuFoldOutlined onClick={() => common.onShowPlayList()} /> : <MenuUnfoldOutlined onClick={() => common.onShowPlayList()} />}
         </MusicPlayerExtra>
       </MusicPlayerContainer>
     </>
-	);
+  );
 });
 
 export default MusicPlayer;
