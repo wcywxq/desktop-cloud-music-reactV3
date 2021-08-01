@@ -100,7 +100,7 @@ const PlaylistDetail: React.FC<RouteConfigComponentProps> = ({ match, history, l
               </Text>
             </Space>
             <Space style={{ width: "100%" }}>
-              <RaiseButton color="#fff" background="#ff4d4f" icon={<IconFont type="icon-play" />}>
+              <RaiseButton color="#fff" background="#ff4d4f" icon={<IconFont type="icon-play_white" />}>
                 继续播放
               </RaiseButton>
               <RaiseButton color="#333" background="#f5f5f5" activebackground="#ddd" icon={<StarOutlined />}>
