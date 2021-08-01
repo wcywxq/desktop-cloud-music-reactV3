@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
 import styled from "styled-components";
+import { IconFont } from "../icon";
 
 interface ISearchInput {
   placeholder?: string;
@@ -30,7 +30,7 @@ const SearchInput: React.FC<ISearchInput> = ({ placeholder, onPressEnter, width 
   return (
     <Search
       style={{ width: `${width}px` }}
-      prefix={<SearchOutlined />}
+      prefix={<IconFont type="icon-search" />}
       placeholder={placeholder || ""}
       onPressEnter={onPressEnter}
       allowClear

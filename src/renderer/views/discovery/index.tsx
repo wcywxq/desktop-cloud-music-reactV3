@@ -23,7 +23,7 @@ const BannerSheet = styled.img`
 `;
 
 const GridContainer = styled.div`
-  width: 1000px;
+  /* width: 1000px; */
   margin: 0 auto;
 `;
 

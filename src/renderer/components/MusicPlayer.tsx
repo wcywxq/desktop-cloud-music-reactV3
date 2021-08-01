@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HeartOutlined, StepBackwardOutlined, StepForwardOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { StepBackwardOutlined, StepForwardOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { Slider, Space, Dropdown, Menu, Popover } from "antd";
 import { observer, useLocalObservable } from "mobx-react-lite";
@@ -123,7 +123,7 @@ const MusicPlayer = observer(() => {
         <Next />
       </Control>
       <Extra>
-        <HeartOutlined title="喜欢" />
+        <IconFont type="icon-heart" title="喜欢" style={{ fontSize: "16px" }} />
         <IconFont type="icon-send" title="分享" />
         <IconFont type="icon-loop" title="循环播放" />
       </Extra>

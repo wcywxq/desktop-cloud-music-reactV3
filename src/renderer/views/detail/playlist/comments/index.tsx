@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Space, Row, Col, Card, Divider, Pagination, List, Avatar, Skeleton } from "antd";
+import { Space, Row, Card, Divider, List, Avatar, Skeleton } from "antd";
 import { DownOutlined, LikeOutlined, MessageOutlined, ShareAltOutlined, UpOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { Text } from "@/components/text";
@@ -132,16 +132,8 @@ const Comments: React.FC<DetailRouteType> = ({ state }) => {
                     </Row>
                     {item.beReplied.length > 0 && (
                       <>
-                        <Text
-                          color="#1890ff"
-                          active="#1890ff"
-                          style={{ width: "100%" }}
-                          onClick={() => onVisibleChange(item.commentId)}>
-                          {item.visible ? (
-                            <>收起{item.beReplied.length}条回复</>
-                          ) : (
-                            <>展开{item.beReplied.length}条回复</>
-                          )}
+                        <Text color="#1890ff" active="#1890ff" style={{ width: "100%" }} onClick={() => onVisibleChange(item.commentId)}>
+                          {item.visible ? <>收起{item.beReplied.length}条回复</> : <>展开{item.beReplied.length}条回复</>}
                           <Text size={10} color="#1890ff" active="#1890ff">
                             {item.visible ? <UpOutlined /> : <DownOutlined />}
                           </Text>
