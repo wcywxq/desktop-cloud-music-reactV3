@@ -28,7 +28,7 @@ const PlayCount: React.FC<{ value: number }> = (props) => {
 
 	return (
     <Container>
-      <Icon type="icon-play" />
+      <Icon type="icon-play_white" />
       <Quantity>{transformUnit(value)}</Quantity>
     </Container>
 	);

@@ -15,27 +15,32 @@ import "swiper/components/pagination/pagination.less";
 
 SwiperCore.use([Navigation, Pagination]);
 
-const BannerItem = styled.img`
+const BannerSheet = styled.img`
   display: block;
   width: 520px;
   height: auto;
   border-radius: 20px;
 `;
 
-const AlbumTitle = styled.div`
-  font-size: 18px;
-  font-weight: bold;
-  margin: 10px 0;
+const GridContainer = styled.div`
+  width: 1000px;
+  margin: 0 auto;
 `;
 
-const AlbumCard = styled.div`
+const GridLayout = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   justify-items: center;
   gap: 20px;
 `;
 
-const AlbumItem = styled.div`
+const GridTitle = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+`;
+
+const PieceAlbum = styled.div`
   position: relative;
 
   img {
@@ -57,7 +62,7 @@ const AlbumItem = styled.div`
   }
 `;
 
-const AlbumMask = styled.div`
+const PieceMask = styled.div`
   position: absolute;
   top: 0;
   bottom: 0;
@@ -84,20 +89,19 @@ const AlbumMask = styled.div`
 
 const Discovery: React.FC = () => {
   const [banners, setBanners] = useState<any[]>([]);
-  const [recommendPlayList, setRecommendPlayList] = useState<any[]>([]);
+  const [recommendPlaylist, setRecommendPlaylist] = useState<any[]>([]);
 
   useEffect(() => {
-    const fetchBanners = async () => {
-      const response = await getBanners();
-      setBanners(response.banners || []);
+    const fetchData = async () => {
+      try {
+        const [respBanners, respRecommendPlayList] = await Promise.all([getBanners(), getRecommendPlaylist()]);
+        setBanners(respBanners.banners || []);
+        setRecommendPlaylist(respRecommendPlayList.result || []);
+      } catch (err) {
+        throw new Error(err);
+      }
     };
-    const fetchRecommendPlayList = async () => {
-      const response = await getRecommendPlaylist();
-      setRecommendPlayList(response.result || []);
-      console.log(response);
-    };
-    fetchBanners();
-    fetchRecommendPlayList();
+    fetchData();
   }, []);
 
   return (
@@ -118,33 +122,35 @@ const Discovery: React.FC = () => {
               alignItems: "center",
               justifyContent: "center"
             }}>
-            <BannerItem src={banner.imageUrl} alt="" />
+            <BannerSheet src={banner.imageUrl} alt="" />
           </SwiperSlide>
         ))}
       </Swiper>
       {/* 编辑精选 */}
-      <AlbumTitle>编辑精选</AlbumTitle>
-      <AlbumCard>
-        {recommendPlayList.map(item => (
-          <Link key={item.id} to={`/detail/playlist/songs?id=${item.id}`}>
-            <Space direction="vertical" size="small">
-              <AlbumItem>
-                <img src={item.picUrl} alt="" />
-                <PlayCount value={item.playCount} />
-                <AlbumMask className="album-mask">
-                  <PlayCircleFilled />
-                </AlbumMask>
-              </AlbumItem>
-              <Text strong ellipsis title={item.name}>
-                {item.name}
-              </Text>
-              <Text color="#8c8c8c" ellipsis size={13} title={item.copywriter}>
-                {item.copywriter}
-              </Text>
-            </Space>
-          </Link>
-        ))}
-      </AlbumCard>
+      <GridContainer>
+        <GridTitle>编辑精选</GridTitle>
+        <GridLayout>
+          {recommendPlaylist.map(item => (
+            <Link key={item.id} to={`/detail/playlist/songs?id=${item.id}`}>
+              <Space direction="vertical" size="small">
+                <PieceAlbum>
+                  <img src={item.picUrl} alt="" />
+                  <PlayCount value={item.playCount} />
+                  <PieceMask className="album-mask">
+                    <PlayCircleFilled />
+                  </PieceMask>
+                </PieceAlbum>
+                <Text strong ellipsis title={item.name}>
+                  {item.name}
+                </Text>
+                <Text color="#8c8c8c" ellipsis size={13} title={item.copywriter}>
+                  {item.copywriter}
+                </Text>
+              </Space>
+            </Link>
+          ))}
+        </GridLayout>
+      </GridContainer>
     </>
   );
 };
