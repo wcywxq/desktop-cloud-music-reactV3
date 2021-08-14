@@ -19,7 +19,7 @@ import User from "./user";
 const { TabPane } = Tabs;
 
 const Search: React.FC<RouteConfigComponentProps> = ({ match, location, history }) => {
-  const { keywords } = qs.parse(location.search) as unknown as { keywords: string };
+  const { keywords } = qs.parse(location.search) as { keywords: string };
   const [dataSet, setDataSet] = useState<SearchStateType>();
   const [loading, setLoading] = useState<boolean>(false);
   const [pageNum, setPageNum] = useState<number>(1);

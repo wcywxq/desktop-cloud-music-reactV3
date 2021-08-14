@@ -2,6 +2,7 @@ import React from "react";
 import { Input } from "antd";
 import styled from "styled-components";
 import { IconFont } from "../icon";
+import { SearchOutlined } from "@ant-design/icons";
 
 interface ISearchInput {
   placeholder?: string;
@@ -27,15 +28,7 @@ const Search = styled(Input)`
 `;
 
 const SearchInput: React.FC<ISearchInput> = ({ placeholder, onPressEnter, width }) => {
-  return (
-    <Search
-      style={{ width: `${width}px` }}
-      prefix={<IconFont type="icon-search" />}
-      placeholder={placeholder || ""}
-      onPressEnter={onPressEnter}
-      allowClear
-    />
-  );
+  return <Search style={{ width: `${width}px` }} prefix={<SearchOutlined />} placeholder={placeholder || ""} onPressEnter={onPressEnter} allowClear />;
 };
 
 export default SearchInput;
