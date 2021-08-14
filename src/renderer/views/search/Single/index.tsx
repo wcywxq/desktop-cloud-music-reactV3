@@ -10,9 +10,9 @@ import { Text } from "@/components/text";
 
 /**
  * @description 命中项渲染
- * @param str 
- * @param keywords 
- * @returns 
+ * @param str
+ * @param keywords
+ * @returns
  */
 const renderHitContent = (str: string, keywords: string) => {
   let arr = str.split(keywords);
@@ -80,11 +80,7 @@ const Single: React.FC<SearchRouteType> = ({ state, loading }) => {
       title: "专辑",
       dataIndex: "al",
       width: "25%",
-      render: (scope: AlbumStruct) => (
-        <Text ellipsis title={scope.name}>
-          {scope.name}
-        </Text>
-      )
+      render: (scope: AlbumStruct) => renderHitContent(scope.name, keywords)
     },
     {
       title: "时长",
