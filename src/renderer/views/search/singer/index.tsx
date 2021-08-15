@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { SearchRouteType } from "@/typings";
 
 const Singer: React.FC<SearchRouteType> = ({ state, loading }) => {
@@ -9,6 +9,4 @@ const Singer: React.FC<SearchRouteType> = ({ state, loading }) => {
   );
 };
 
-export default memo(Singer, (prevProps, nextProps) => {
-  return prevProps.state === nextProps.state && prevProps.loading === nextProps.loading;
-});
+export default Singer;

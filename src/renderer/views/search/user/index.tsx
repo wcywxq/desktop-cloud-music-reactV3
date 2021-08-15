@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { SearchRouteType } from "@/typings";
 
 const User: React.FC<SearchRouteType> = ({ state }) => {
@@ -9,6 +9,4 @@ const User: React.FC<SearchRouteType> = ({ state }) => {
   );
 };
 
-export default memo(User, (prevProps, nextProps) => {
-  return prevProps.state === nextProps.state && prevProps.loading === nextProps.loading;
-});
+export default User;

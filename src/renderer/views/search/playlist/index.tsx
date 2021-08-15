@@ -1,17 +1,10 @@
-import React, { memo } from "react";
+import React from "react";
 import { Avatar, List, Skeleton, Row, Col, Space } from "antd";
 import { Link } from "react-router-dom";
 import { SearchRouteType } from "@/typings";
 import { Text } from "@/components/text";
 
-const Playlist: React.FC<SearchRouteType> = ({
-  state,
-  loading,
-  pageNum,
-  pageSize,
-  handleCurrentChange,
-  handleSizeChange
-}) => {
+const Playlist: React.FC<SearchRouteType> = ({ state, loading, pageNum, pageSize, handleCurrentChange, handleSizeChange }) => {
   return (
     <List
       size="small"
@@ -58,11 +51,4 @@ const Playlist: React.FC<SearchRouteType> = ({
   );
 };
 
-export default memo(Playlist, (prevProps, nextProps) => {
-  return (
-    prevProps.state === nextProps.state &&
-    prevProps.loading === nextProps.loading &&
-    prevProps.pageNum === nextProps.pageNum &&
-    prevProps.pageSize === nextProps.pageSize
-  );
-});
+export default Playlist;

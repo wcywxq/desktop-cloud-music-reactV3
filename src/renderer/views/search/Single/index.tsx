@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
 import { Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
@@ -14,7 +14,7 @@ import { Text } from "@/components/text";
  * @param keywords
  * @returns
  */
-const renderHitContent = (str: string, keywords: string) => {
+const renderHitContent = (str: string, keywords: string): JSX.Element => {
   let arr = str.split(keywords);
   let len = arr.length;
   if (!len)
@@ -89,11 +89,8 @@ const Single: React.FC<SearchRouteType> = ({ state, loading }) => {
       render: (scope: Date) => <Text color="#9b9b9b">{dayjs(scope).format("mm:ss")}</Text>
     }
   ];
-  console.log(keywords);
 
   return <Table<SongsStruct> size="small" rowKey={record => record.id} loading={loading} columns={columns} dataSource={state?.songs} />;
 };
 
-export default memo(Single, (prevProps, nextProps) => {
-  return prevProps.state === nextProps.state && prevProps.loading === nextProps.loading;
-});
+export default Single;
