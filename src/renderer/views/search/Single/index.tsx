@@ -70,11 +70,7 @@ const Single: React.FC<SearchRouteType> = ({ state, loading }) => {
       title: "歌手",
       dataIndex: "ar",
       width: "15%",
-      render: (scope: AuthorStruct[]) => (
-        <Text ellipsis title={scope.map(author => author.name).join(" / ")}>
-          {scope.map(author => author.name).join(" / ")}
-        </Text>
-      )
+      render: (scope: AuthorStruct[]) => renderHitContent(scope.map(author => author.name).join(" / "), keywords)
     },
     {
       title: "专辑",
