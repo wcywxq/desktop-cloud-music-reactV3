@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { HeartOutlined, DownloadOutlined } from "@ant-design/icons";
@@ -11,7 +11,6 @@ import { useHitKeywords } from "@/hooks";
 
 const Single: React.FC<SearchRouteType> = ({ state, loading }) => {
   const location = useLocation();
-  const history = useHistory();
   const { keywords } = qs.parse(location.search) as { keywords: string };
   const { renderHitKeywords } = useHitKeywords();
   const columns: ColumnsType<SongsStruct> = [
@@ -50,9 +49,9 @@ const Single: React.FC<SearchRouteType> = ({ state, loading }) => {
         <Text ellipsis title={scope.map(author => author.name).join(" / ")} active="#333">
           {scope.map((author, index) => (
             <React.Fragment key={author.id}>
-              <Text color="#777" active="#333" onClick={() => history.push(`/detail/singer/${author.id}`)}>
+              <Link to={`/detail/singer/${author.id}`} style={{ color: "#5a7bab" }}>
                 {renderHitKeywords(author.name, keywords)}
-              </Text>
+              </Link>
               {index !== scope.length - 1 && " / "}
             </React.Fragment>
           ))}
