@@ -1,11 +1,18 @@
 import React from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { List, Skeleton, Row, Col, Space, Avatar } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import qs from "query-string";
 import { SearchRouteType } from "@/typings";
 import { Text } from "@/components/text";
+import SubTitle from "@/components/SubTitle";
+import { useHitKeywords } from "@/hooks";
 
 const Singer: React.FC<SearchRouteType> = ({ state, loading, pageNum, pageSize, handleCurrentChange, handleSizeChange }) => {
+  const location = useLocation();
+  const { keywords } = qs.parse(location.search) as { keywords: string };
+  const { renderHitKeywords } = useHitKeywords();
+
   return (
     <List
       size="small"
@@ -32,7 +39,10 @@ const Singer: React.FC<SearchRouteType> = ({ state, loading, pageNum, pageSize, 
                 <Col>
                   <Space>
                     <Avatar shape="square" size={64} src={item.img1v1Url} />
-                    <Text>{item.name}</Text>
+                    <Text color="#777" active="#333">
+                      {renderHitKeywords(item.name, keywords)}
+                    </Text>
+                    <SubTitle data={item.alias} />
                   </Space>
                 </Col>
                 <Col>{item.accountId && <Avatar size={20} style={{ backgroundColor: "#ff4d4f" }} icon={<UserOutlined />} />}</Col>

@@ -32,6 +32,12 @@ declare interface AuthorStruct {
 declare interface AlbumStruct {
   id: number;
   name: string;
+  picUrl: string;
+  alias: string[];
+  artist: {
+    name: string;
+    alias: string[];
+  };
 }
 
 declare interface SongsStruct {
@@ -47,6 +53,7 @@ declare interface SingerStruct {
   name: string;
   img1v1Url: string;
   accountId: number;
+  alias: string[];
 }
 
 interface PlaylistBaseStruct {

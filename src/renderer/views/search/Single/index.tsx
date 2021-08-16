@@ -7,37 +7,13 @@ import dayjs from "dayjs";
 import qs from "query-string";
 import type { SongsStruct, AuthorStruct, AlbumStruct, SearchRouteType } from "@/typings";
 import { Text } from "@/components/text";
-
-/**
- * @description 命中项渲染
- * @param str
- * @param keywords
- * @returns
- */
-const renderHitContent = (str: string, keywords: string): JSX.Element => {
-  let arr = str.split(keywords);
-  let len = arr.length;
-  if (!len) return <React.Fragment>{str}</React.Fragment>;
-  return (
-    <React.Fragment>
-      {arr.map((item, index) => (
-        <React.Fragment key={index}>
-          {item}
-          {index !== len - 1 && (
-            <Text key={index} color="#1890ff" active="#1890ff">
-              {keywords}
-            </Text>
-          )}
-        </React.Fragment>
-      ))}
-    </React.Fragment>
-  );
-};
+import { useHitKeywords } from "@/hooks";
 
 const Single: React.FC<SearchRouteType> = ({ state, loading }) => {
   const location = useLocation();
   const history = useHistory();
   const { keywords } = qs.parse(location.search) as { keywords: string };
+  const { renderHitKeywords } = useHitKeywords();
   const columns: ColumnsType<SongsStruct> = [
     {
       dataIndex: "id",
@@ -62,7 +38,7 @@ const Single: React.FC<SearchRouteType> = ({ state, loading }) => {
       width: "40%",
       render: (scope: string) => (
         <Text ellipsis title={scope} active="#333">
-          {renderHitContent(scope, keywords)}
+          {renderHitKeywords(scope, keywords)}
         </Text>
       )
     },
@@ -74,7 +50,9 @@ const Single: React.FC<SearchRouteType> = ({ state, loading }) => {
         <Text ellipsis title={scope.map(author => author.name).join(" / ")} active="#333">
           {scope.map((author, index) => (
             <React.Fragment key={author.id}>
-              <Text color="#777" active="#333" onClick={() => history.push(`/detail/singer/${author.id}`)}>{renderHitContent(author.name, keywords)}</Text>
+              <Text color="#777" active="#333" onClick={() => history.push(`/detail/singer/${author.id}`)}>
+                {renderHitKeywords(author.name, keywords)}
+              </Text>
               {index !== scope.length - 1 && " / "}
             </React.Fragment>
           ))}
@@ -88,7 +66,7 @@ const Single: React.FC<SearchRouteType> = ({ state, loading }) => {
       render: (scope: AlbumStruct) => (
         <Link to={`/detail/album/${scope.id}`}>
           <Text ellipsis title={scope.name} active="#333">
-            {renderHitContent(scope.name, keywords)}
+            {renderHitKeywords(scope.name, keywords)}
           </Text>
         </Link>
       )
