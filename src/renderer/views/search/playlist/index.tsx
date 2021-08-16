@@ -1,10 +1,16 @@
 import React from "react";
 import { Avatar, List, Skeleton, Row, Col, Space } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import qs from "query-string";
 import { SearchRouteType } from "@/typings";
 import { Text } from "@/components/text";
+import { useHitKeywords } from "@/hooks";
 
 const Playlist: React.FC<SearchRouteType> = ({ state, loading, pageNum, pageSize, handleCurrentChange, handleSizeChange }) => {
+  const location = useLocation();
+  const { keywords } = qs.parse(location.search) as { keywords: string };
+  const { renderHitKeywords } = useHitKeywords();
+
   return (
     <List
       size="small"
@@ -31,7 +37,9 @@ const Playlist: React.FC<SearchRouteType> = ({ state, loading, pageNum, pageSize
                 <Col flex={1}>
                   <Space>
                     <Avatar shape="square" size={64} src={item.coverImgUrl} />
-                    <Text>{item.name}</Text>
+                    <Text color="#777" active="#333">
+                      {renderHitKeywords(item.name, keywords)}
+                    </Text>
                   </Space>
                 </Col>
                 <Col span={3}>
