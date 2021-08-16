@@ -45,6 +45,8 @@ declare interface SongsStruct {
 declare interface SingerStruct {
   id: number;
   name: string;
+  img1v1Url: string;
+  accountId: number;
 }
 
 interface PlaylistBaseStruct {
