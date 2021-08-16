@@ -78,7 +78,14 @@ declare interface UserStruct {
 
 declare interface LyricStruct {}
 
-declare interface RadioStruct {}
+declare interface RadioStruct {
+  id: number;
+  picUrl: string;
+  name: string;
+  dj: {
+    nickname: string;
+  };
+}
 
 declare interface VideoStruct {}
 
@@ -146,16 +153,7 @@ declare namespace SearchState {
 declare type SearchType = "1" | "10" | "100" | "1000" | "1002" | "1004" | "1006" | "1009" | "1014" | "1018";
 
 declare type SearchStateType = Partial<
-  SearchState.Single &
-    SearchState.Album &
-    SearchState.Singer &
-    SearchState.Playlist &
-    SearchState.User &
-    SearchState.Lyric &
-    SearchState.Radio &
-    SearchState.Video
+  SearchState.Single & SearchState.Album & SearchState.Singer & SearchState.Playlist & SearchState.User & SearchState.Lyric & SearchState.Radio & SearchState.Video
 >;
 
-declare type SearchRouteType = Partial<
-  PaginationOptionsType & { loading: boolean; state: SearchStateType; children: React.ReactNode }
->;
+declare type SearchRouteType = Partial<PaginationOptionsType & { loading: boolean; state: SearchStateType; children: React.ReactNode }>;
