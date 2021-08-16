@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import { Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { HeartOutlined, DownloadOutlined } from "@ant-design/icons";
@@ -17,14 +17,9 @@ import { Text } from "@/components/text";
 const renderHitContent = (str: string, keywords: string): JSX.Element => {
   let arr = str.split(keywords);
   let len = arr.length;
-  if (!len)
-    return (
-      <Text ellipsis title={str} active="#333">
-        {str}
-      </Text>
-    );
+  if (!len) return <React.Fragment>{str}</React.Fragment>;
   return (
-    <Text ellipsis title={str} active="#333">
+    <React.Fragment>
       {arr.map((item, index) => (
         <React.Fragment key={index}>
           {item}
@@ -35,12 +30,13 @@ const renderHitContent = (str: string, keywords: string): JSX.Element => {
           )}
         </React.Fragment>
       ))}
-    </Text>
+    </React.Fragment>
   );
 };
 
 const Single: React.FC<SearchRouteType> = ({ state, loading }) => {
   const location = useLocation();
+  const history = useHistory();
   const { keywords } = qs.parse(location.search) as { keywords: string };
   const columns: ColumnsType<SongsStruct> = [
     {
@@ -64,19 +60,38 @@ const Single: React.FC<SearchRouteType> = ({ state, loading }) => {
       title: "音乐标题",
       dataIndex: "name",
       width: "40%",
-      render: (scope: string) => renderHitContent(scope, keywords)
+      render: (scope: string) => (
+        <Text ellipsis title={scope} active="#333">
+          {renderHitContent(scope, keywords)}
+        </Text>
+      )
     },
     {
       title: "歌手",
       dataIndex: "ar",
       width: "15%",
-      render: (scope: AuthorStruct[]) => renderHitContent(scope.map(author => author.name).join(" / "), keywords)
+      render: (scope: AuthorStruct[]) => (
+        <Text ellipsis title={scope.map(author => author.name).join(" / ")} active="#333">
+          {scope.map((author, index) => (
+            <React.Fragment key={author.id}>
+              <Text color="#777" active="#333" onClick={() => history.push(`/detail/singer/${author.id}`)}>{renderHitContent(author.name, keywords)}</Text>
+              {index !== scope.length - 1 && " / "}
+            </React.Fragment>
+          ))}
+        </Text>
+      )
     },
     {
       title: "专辑",
       dataIndex: "al",
       width: "25%",
-      render: (scope: AlbumStruct) => renderHitContent(scope.name, keywords)
+      render: (scope: AlbumStruct) => (
+        <Link to={`/detail/album/${scope.id}`}>
+          <Text ellipsis title={scope.name} active="#333">
+            {renderHitContent(scope.name, keywords)}
+          </Text>
+        </Link>
+      )
     },
     {
       title: "时长",

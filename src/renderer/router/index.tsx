@@ -88,6 +88,16 @@ const routes: Routes[] = [
                 component: Loadable({ loading: Loading, loader: () => import("@/views/detail/playlist/collector") })
               }
             ]
+          },
+          {
+            path: "/detail/singer/:id",
+            title: "歌手详情",
+            component: Loadable({ loading: Loading, loader: () => import("@/views/detail/singer") })
+          },
+          {
+            path: "/detail/album/:id",
+            title: "专辑详情",
+            component: Loadable({ loading: Loading, loader: () => import("@/views/detail/album") })
           }
         ]
       },
